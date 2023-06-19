@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SignupScreen extends StatelessWidget {
+class SigninScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: const Text('Log in'),
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -30,7 +30,7 @@ class SignupScreen extends StatelessWidget {
               onPressed: () {
                 // Implement signup logic here
               },
-              child: const Text('Sign Up'),
+              child: const Text('Log In'),
             ),
           ],
         ),

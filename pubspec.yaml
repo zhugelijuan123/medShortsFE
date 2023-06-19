@@ -48,6 +48,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  # network_image: ^3.0.1
+  cached_network_image: ^3.2.0
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -55,6 +59,16 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+  fonts:
+    - family: Caveat
+      fonts:
+        - asset: fonts/Caveat-Regular.ttf
+        - asset: fonts/Caveat-Bold.ttf
+          weight: 700
+    - family: Times New Roman
+      fonts:
+        - asset: fonts/times new roman bold.ttf
+          weight: 700
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
