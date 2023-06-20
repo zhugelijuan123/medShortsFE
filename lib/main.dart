@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'frontend/screens/signup_screen.dart';
 import 'frontend/screens/news_feed_screen.dart';
-import 'frontend/screens/slide_demon.dart';
+import 'frontend/screens/introduction_screen.dart';
 import "frontend/screens/first_intro_signup_screen.dart";
 
 void main() {
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context, constraints) {
         return Scaffold(
           appBar: null,
-          body: FirstIntroSignupScreen(),
+          body: SwipeCombination(),
         );
       }
     );

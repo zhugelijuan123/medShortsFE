@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import 'signin_screen.dart';
+import 'news_feed_screen.dart';
+import 'introduction_screen.dart';
 
 class FirstIntroSignupScreen extends StatelessWidget {
   @override
@@ -187,7 +189,7 @@ class FirstIntroSignupScreen extends StatelessWidget {
                       // Navigate to another page
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Placeholder()),
+                        MaterialPageRoute(builder: (context) =>  SwipeCombination()),
                       );
                     },
                     child: const Text(
