@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'frontend/screens/signup_screen.dart';
+import 'frontend/screens/news_feed_screen.dart';
+import 'frontend/screens/slide_demon.dart';
+import "frontend/screens/first_intro_signup_screen.dart";
 
 void main() {
   runApp(MyApp());
@@ -53,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = Placeholder();
         break;
       case 2:
-        page = SignupScreen();
+        page = Placeholder();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -62,42 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
-          body: Row(
-            children: [
-              SafeArea(
-                child: NavigationRail(
-                  extended: constraints.maxWidth >= 600,  // ← Here.
-                  destinations: [
-                    NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      label: Text('Home'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      label: Text('Favorites'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.account_circle_outlined),
-                      label: Text('Me'),
-                    ),
-                  ],
-                  selectedIndex: selectedIndex,
-                  onDestinationSelected: (value) {
-                    // ↓ Replace print with this.
-                    setState(() {
-                      selectedIndex = value;
-                    });
-                  },
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  child: page,
-                ),
-              ),
-            ],
-          ),
+          appBar: null,
+          body: FirstIntroSignupScreen(),
         );
       }
     );
