@@ -12,67 +12,223 @@ class _SwipeCombinationState extends State<SwipeCombination> {
   final PageController _pageController = PageController(initialPage: 0);
   final List<List<Widget>> combinations = [
     [Align(
-                  alignment: Alignment.centerLeft,
-                  child: RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '\nMed',
-                          style: TextStyle(
-                            fontSize: 42,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Arial',
-                            color:Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Shorts',
-                          style: TextStyle(
-                            fontSize: 42,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic,
-                            fontFamily: 'Arial',
-                            color: Color(0xFF2CB197),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ), const Row(
-                  children: [
-                    SizedBox(width: 80), // Add space using SizedBox
-                    Text(
-                      'Rapid insights into the medical world',
-                      style: TextStyle(
-                        fontSize: 20,  // Adjust the font size
-                        color: Colors.black,  // Set the text color
-                        letterSpacing: 1,  // Set the letter spacing
-                        fontFamily: 'Caveat',    
-                        fontWeight: FontWeight.bold,                                          
-                        // Add more style properties as needed
-                      ),
-                    ),
-                  ],
-                ),const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(width:10),
-                  Flexible(
-                    child: Text(
-                      '\n\n\n  You might be here for new trends in Healthcare...\n\n  But that\'s just a start!\n',
-                      style: TextStyle(
-                        fontSize: 27,  // Adjust the font size
-                        color: Colors.black,  // Set the text color
-                        letterSpacing: 1,  // Set the letter spacing
-                        fontFamily: 'Times New Roman',  
-                        fontWeight: FontWeight.bold,                      
-                        // Add more style properties as needed
-                      ),
-                    ),
-                  )
-                ],)],
-    [Text('Combination 2, Row 1'), Text('Combination 2, Row 2')],
-    [Text('Combination 3, Row 1'), Text('Combination 3, Row 2')],
+        alignment: Alignment.centerLeft,
+        child: RichText(
+          text: const TextSpan(
+            children: [
+              TextSpan(
+                text: '\nMed',
+                style: TextStyle(
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Arial',
+                  color:Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: 'Shorts',
+                style: TextStyle(
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  fontFamily: 'Arial',
+                  color: Color(0xFF2CB197),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ), 
+      const Row(
+        children: [
+          SizedBox(width: 80), // Add space using SizedBox
+          Text(
+            'Rapid insights into the medical world',
+            style: TextStyle(
+              fontSize: 20,  // Adjust the font size
+              color: Colors.black,  // Set the text color
+              letterSpacing: 1,  // Set the letter spacing
+              fontFamily: 'Caveat',    
+              fontWeight: FontWeight.bold,                                          
+              // Add more style properties as needed
+            ),
+          ),
+        ],
+      ),
+      const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(width:10),
+        Flexible(
+          child: Text(
+            '\n\n\n  You might be here for new trends in Healthcare...\n\n  But that\'s just a start!\n',
+            style: TextStyle(
+              fontSize: 27,  // Adjust the font size
+              color: Colors.black,  // Set the text color
+              letterSpacing: 1,  // Set the letter spacing
+              fontFamily: 'Times New Roman',  
+              fontWeight: FontWeight.bold,                      
+              // Add more style properties as needed
+            ),
+          ),
+        )
+      ],),
+      Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 4,
+                blurRadius: 4,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 0,
+                blurRadius: 0,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 0,
+                blurRadius: 0,
+              ),
+            ],
+          ),
+        ),
+    ],)],
+    [Text('Page 2, Please put your content here'), Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 0,
+                blurRadius: 0,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 4,
+                blurRadius: 4,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 0,
+                blurRadius: 0,
+              ),
+            ],
+          ),
+        ),
+    ],)],
+    [Text('Page 3, please put your content here'), Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 0,
+                blurRadius: 0,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 0,
+                blurRadius: 0,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 4,
+                blurRadius: 4,
+              ),
+            ],
+          ),
+        ),
+    ],)],
   ];
 
   @override
@@ -82,7 +238,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
       body: Column(
         children: [
           Container(
-            height: 550, // Define the desired height
+            height: 580, // Define the desired height
             child: PageView.builder(
               controller: _pageController,
               itemCount: combinations.length,
@@ -153,7 +309,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                       // Navigate to another page
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  SwipeCombination()),
+                        MaterialPageRoute(builder: (context) =>  NewsFeedScreen()),
                       );
                     },
                     child: const Text(
