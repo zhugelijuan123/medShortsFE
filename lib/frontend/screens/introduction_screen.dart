@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import 'signin_screen.dart';
 import 'news_feed_screen.dart';
-import 'introduction_screen.dart';
 
-class FirstIntroSignupScreen extends StatelessWidget {
+class SwipeCombination extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-      appBar: null,
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-            children: [
-              Align(
+  _SwipeCombinationState createState() => _SwipeCombinationState();
+}
+
+class _SwipeCombinationState extends State<SwipeCombination> {
+  final PageController _pageController = PageController(initialPage: 0);
+  final List<List<Widget>> combinations = [
+    [Align(
                   alignment: Alignment.centerLeft,
                   child: RichText(
                     text: const TextSpan(
@@ -41,8 +38,7 @@ class FirstIntroSignupScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-                const Row(
+                ), const Row(
                   children: [
                     SizedBox(width: 80), // Add space using SizedBox
                     Text(
@@ -57,8 +53,7 @@ class FirstIntroSignupScreen extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              const Row(
+                ),const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(width:10),
@@ -75,61 +70,30 @@ class FirstIntroSignupScreen extends StatelessWidget {
                       ),
                     ),
                   )
-                ],),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 2,
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 0,
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 0,
-                          blurRadius: 0,
-                        ),
-                      ],
-                    ),
-                  ),
-              ],),
-              const SizedBox(height: 60,),
-              Row(
+                ],)],
+    [Text('Combination 2, Row 1'), Text('Combination 2, Row 2')],
+    [Text('Combination 3, Row 1'), Text('Combination 3, Row 2')],
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: null,
+      body: Column(
+        children: [
+          Container(
+            height: 550, // Define the desired height
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: combinations.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListView(
+                  children: combinations[index],
+                );
+              },
+            ),
+          ),
+          Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
@@ -203,11 +167,8 @@ class FirstIntroSignupScreen extends StatelessWidget {
                     ),
                   )
                 ],),
-            ],
-          ),
+        ],
       ),
-    ),
-  );
-    
+    );
   }
 }
