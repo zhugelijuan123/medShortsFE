@@ -283,6 +283,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 ],),
                 const SizedBox(height: 30,),
                 Row(children: [
+                  SizedBox(width:28),
                   InkWell(
                     onTap: () {
                       // Navigate to another page
@@ -304,12 +305,13 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 ],),
                 const SizedBox(height: 18,),
                 Row(children: [
+                  SizedBox(width:28),
                   InkWell(
                     onTap: () {
                       // Navigate to another page
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  NewsFeedScreen()),
+                        MaterialPageRoute(builder: (context) =>  Placeholder()),
                       );
                     },
                     child: const Text(
