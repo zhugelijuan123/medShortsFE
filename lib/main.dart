@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'frontend/screens/signup_screen.dart';
 import 'frontend/screens/news_feed_screen.dart';
 import 'frontend/screens/introduction_screen.dart';
-import "frontend/screens/first_intro_signup_screen.dart";
 
 void main() {
   runApp(MyApp());
