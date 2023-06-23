@@ -68,6 +68,7 @@ flutter:
     - family: Times New Roman
       fonts:
         - asset: fonts/times new roman bold.ttf
+          style: italic
           weight: 700
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
