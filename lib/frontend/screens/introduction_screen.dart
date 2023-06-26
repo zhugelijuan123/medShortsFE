@@ -320,62 +320,72 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                         Radius.circular(
                             0), // Set the border radius to 0 for right angles
                       ),
-                      minimumSize: const Size(double.infinity, 50), // Set the desired height
                     ),
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        color:Colors.white,                        
-                        fontWeight: FontWeight.bold,    
-                        fontSize: 18,
-                      ),
-                      ),
-                  ), ),
-                ],),
-                const SizedBox(height: 30,),
-                Row(children: [
-                  SizedBox(width:28),
-                  InkWell(
-                    onTap: () {
-                      // Navigate to another page
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SigninScreen()),
-                      );
-                    },
-                    child: const Text(
-                      'Already have an account?',
-                      style: TextStyle(
-                        color: Color(0xFF414BB2), 
-                        fontWeight: FontWeight.bold,  
-                        fontSize: 18,  
-                        // Set the text color to blue
-                      ),
+                    minimumSize: const Size(
+                        double.infinity, 50), // Set the desired height
+                  ),
+                  child: const Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
                     ),
-                  )
-                ],),
-                const SizedBox(height: 18,),
-                Row(children: [
-                  SizedBox(width:28),
-                  InkWell(
-                    onTap: () {
-                      // Navigate to another page
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Placeholder()),
-                      );
-                    },
-                    child: const Text(
-                      'Privacy',
-                      style: TextStyle(
-                        color: Color(0xFF414BB2), 
-                        fontWeight: FontWeight.bold,  
-                        fontSize: 18,  
-                        // Set the text color to blue
-                      ),
-                    ),
-                  )
-                ],),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  // Navigate to another page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SigninScreen()),
+                  );
+                },
+                child: const Text(
+                  'Already have an account?',
+                  style: TextStyle(
+                    color: Color(0xFF414BB2),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    // Set the text color to blue
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 18,
+          ),
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  // Navigate to another page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NewsFeedScreen()),
+                  );
+                },
+                child: const Text(
+                  'Privacy',
+                  style: TextStyle(
+                    color: Color(0xFF414BB2),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    // Set the text color to blue
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );
