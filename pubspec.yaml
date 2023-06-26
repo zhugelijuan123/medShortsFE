@@ -30,7 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  url_launcher: ^6.0.9
 
+  google_fonts: ^5.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,8 +52,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   # network_image: ^3.0.1
-  cached_network_image: ^3.2.0
-
 
 
 # For information on the generic Dart part of this file, see the
@@ -70,6 +71,24 @@ flutter:
         - asset: fonts/times new roman bold.ttf
           style: italic
           weight: 700
+    - family: NotoSans
+      fonts:
+        - asset: fonts/NotoSans-Regular.ttf
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans-Regular.ttf
+
+  assets:
+    - assets/images/tech.png
+    - assets/images/medication.png
+    - assets/images/research.png
+    - assets/images/mental_health_ori.png
+    - assets/images/nutrition.png
+    - assets/images/environment.jpeg
+    - assets/images/person.jpeg
+    - assets/images/mountain.jpeg
+
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
