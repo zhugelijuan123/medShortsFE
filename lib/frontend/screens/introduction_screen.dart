@@ -11,7 +11,8 @@ class SwipeCombination extends StatefulWidget {
 class _SwipeCombinationState extends State<SwipeCombination> {
   final PageController _pageController = PageController(initialPage: 0);
   final List<List<Widget>> combinations = [
-    [Align(
+    [
+      Align(
         alignment: Alignment.centerLeft,
         child: RichText(
           text: const TextSpan(
@@ -22,7 +23,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   fontSize: 42,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Arial',
-                  color:Colors.black,
+                  color: Colors.black,
                 ),
               ),
               TextSpan(
@@ -38,197 +39,247 @@ class _SwipeCombinationState extends State<SwipeCombination> {
             ],
           ),
         ),
-      ), 
+      ),
       const Row(
         children: [
           SizedBox(width: 80), // Add space using SizedBox
           Text(
             'Rapid insights into the medical world',
             style: TextStyle(
-              fontSize: 20,  // Adjust the font size
-              color: Colors.black,  // Set the text color
-              letterSpacing: 1,  // Set the letter spacing
-              fontFamily: 'Caveat',    
-              fontWeight: FontWeight.bold,                                          
+              fontSize: 20, // Adjust the font size
+              color: Colors.black, // Set the text color
+              letterSpacing: 1, // Set the letter spacing
+              fontFamily: 'Caveat',
+              fontWeight: FontWeight.bold,
               // Add more style properties as needed
             ),
           ),
         ],
       ),
       const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(width:10),
-        Flexible(
-          child: Text(
-            '\n\n\n  You might be here for new trends in Healthcare...\n\n  But that\'s just a start!\n',
-            style: TextStyle(
-              fontSize: 27,  // Adjust the font size
-              color: Colors.black,  // Set the text color
-              letterSpacing: 1,  // Set the letter spacing
-              fontFamily: 'Times New Roman',  
-              fontWeight: FontWeight.bold,                      
-              // Add more style properties as needed
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(width: 10),
+          Flexible(
+            child: Text(
+              '\n\n\n  You might be here for new trends in Healthcare...\n\n  But that\'s just a start!\n',
+              style: TextStyle(
+                fontSize: 27, // Adjust the font size
+                color: Colors.black, // Set the text color
+                letterSpacing: 1, // Set the letter spacing
+                fontFamily: 'Times New Roman',
+                fontWeight: FontWeight.bold,
+                // Add more style properties as needed
+              ),
+            ),
+          )
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 4,
+                  blurRadius: 4,
+                ),
+              ],
             ),
           ),
-        )
-      ],),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 0,
+                  blurRadius: 0,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 0,
+                  blurRadius: 0,
+                ),
+              ],
+            ),
+          ),
+        ],
+      )
+    ],
+    [
+      Column(
+        children: [
+          const Padding(padding: EdgeInsets.only(top: 50)),
+          const Text(
+            'Get updates on the latest health news',
+            style: TextStyle(
+              fontFamily: 'Times New Roman',
+              fontStyle: FontStyle.italic,
+              fontSize: 24,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: Container(
+                    width: 300,
+                    height: 150,
+                    color: const Color(0xFFE6E6E6).withOpacity(.85),
+                  ),
+                ),
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 120),
+                    width: 300,
+                    height: 150,
+                    color: Color(0xFF75AC3F).withOpacity(.75),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 4,
+                        blurRadius: 4,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ],
+    [
+      Text('Page 3, please put your content here'),
       Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 4,
-                blurRadius: 4,
-              ),
-            ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 0,
+                  blurRadius: 0,
+                ),
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 0,
-              ),
-            ],
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 0,
+                  blurRadius: 0,
+                ),
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 0,
-              ),
-            ],
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 4,
+                  blurRadius: 4,
+                ),
+              ],
+            ),
           ),
-        ),
-    ],)],
-    [Text('Page 2, Please put your content here'), Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 0,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 4,
-                blurRadius: 4,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 0,
-              ),
-            ],
-          ),
-        ),
-    ],)],
-    [Text('Page 3, please put your content here'), Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 0,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 0,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 4,
-                blurRadius: 4,
-              ),
-            ],
-          ),
-        ),
-    ],)],
+        ],
+      )
+    ],
   ];
 
   @override
@@ -250,24 +301,24 @@ class _SwipeCombinationState extends State<SwipeCombination> {
             ),
           ),
           Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child:ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignupScreen()),
-                      );
-                      // Add your signup button logic here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF414BB2),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(0), // Set the border radius to 0 for right angles
-                        ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignupScreen()),
+                    );
+                    // Add your signup button logic here
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFF414BB2),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(
+                            0), // Set the border radius to 0 for right angles
                       ),
                       minimumSize: const Size(double.infinity, 50), // Set the desired height
                     ),
