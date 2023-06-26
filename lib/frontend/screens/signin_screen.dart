@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'news_feed_screen.dart';
 
-class SigninScreen extends StatelessWidget {
+
+bool isLoginInfoVerified(String email, String password) {
+  // Regular expression pattern for email validation
+  return true;
+}
+
+class SigninScreen extends StatefulWidget {
+  @override
+  _SigninScreenState createState() => _SigninScreenState();
+}
+
+class _SigninScreenState extends State<SigninScreen> {
+  String userEmail = '';
+  String userPassword = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,22 +28,45 @@ class SigninScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextField(
+            TextField(
               decoration: InputDecoration(
                 labelText: 'Email',
               ),
+              onChanged: (value){
+                setState(() {
+                  userEmail = value; // Update the userInput variable with the user's input
+                });
+              },
             ),
             const SizedBox(height: 16.0),
-            const TextField(
+            TextField(
               decoration: InputDecoration(
                 labelText: 'Password',
               ),
               obscureText: true,
+              onChanged: (value){
+                setState(() {
+                  userPassword = value; // Update the userInput variable with the user's input
+                });
+              },
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // Implement signup logic here
+                // Implement signin logic here
+                if (isLoginInfoVerified(userEmail, userPassword)){
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  NewsFeedScreen()),
+                      );
+                  }
+                else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Wrong email or password'),
+                    ),
+                  );
+                }                
               },
               child: const Text('Log In'),
             ),
