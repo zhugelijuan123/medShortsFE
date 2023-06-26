@@ -150,7 +150,15 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   child: Container(
                     width: 300,
                     height: 150,
-                    color: const Color(0xFFE6E6E6).withOpacity(.85),
+                    color: Color(0xFFE6E6E6).withOpacity(.9),
+                    child: Align(
+                      alignment: AlignmentDirectional.center,
+                      child: Image.asset(
+                        '/Users/AL51493/Downloads/FlutterVSCode/pillScreenshot.png',
+                        width: 300,
+                        height: 100,
+                      ),
+                    ),
                   ),
                 ),
                 Align(
@@ -159,7 +167,15 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                     margin: const EdgeInsets.only(top: 120),
                     width: 300,
                     height: 150,
-                    color: Color(0xFF75AC3F).withOpacity(.75),
+                    color: Color(0xFF75AC3F).withOpacity(.63),
+                    child: Align(
+                      alignment: AlignmentDirectional.center,
+                      child: Image.asset(
+                        '/Users/AL51493/Downloads/FlutterVSCode/syringeScreenshot.png',
+                        width: 300,
+                        height: 100,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -225,60 +241,95 @@ class _SwipeCombinationState extends State<SwipeCombination> {
       ),
     ],
     [
-      Text('Page 3, please put your content here'),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      Column(
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 0,
-                  blurRadius: 0,
+          const Padding(
+            padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
+          ),
+          const Text(
+            'Choose categories of interest',
+            style: TextStyle(
+              fontFamily: 'Times New Roman',
+              fontStyle: FontStyle.italic,
+              fontSize: 24,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: Align(
+                    alignment: AlignmentDirectional.center,
+                    child: Image.asset(
+                      '/Users/AL51493/Downloads/FlutterVSCode/interestCategories.png',
+                      width: 350,
+                      height: 350,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 0,
-                  blurRadius: 0,
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 4,
-                  blurRadius: 4,
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 4,
+                        blurRadius: 4,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
         ],
-      )
+      ),
     ],
   ];
 
