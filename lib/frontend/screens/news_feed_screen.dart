@@ -46,7 +46,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
 final List<NewsArticle> newsArticles1 = [
     NewsArticle(
       title: 'News Headline 1',
-      description: 'Birds sing in harmonious melodies, creating a serene soundtrack in the tranquil forest.The sun slowly sets, casting a warm golden glow on the horizon.',
+      description: 'The UK\'s watchdogs have agreed to a suite of measures to protect consumers from being ripped off by companies during the cost of living crisis. The measures are unlikely to deliver much financial support to Britons who have seen sharp jumps across a raft of their household bills, at the same time as swallowing soaring mortgage costs due to higher interest rates. The CMA is to publish a planned study into the profit margins of supermarkets and fuel retailers on Monday, and will release a study into grocery pricing in the next few weeks. Ofgem has committed to publishing a review of the business energy market over the summer, and the FCA has vowed to examine how banks and building societies passed through interest rate changes.',
       image: 'assets/images/person.jpeg',
       author: 'Author 1',
       publishdTime: '23 mins ago',
@@ -132,7 +132,7 @@ final List<NewsArticle> newsArticles1 = [
       body: 
           Column(
             children: [
-              SizedBox(height: 70,),
+              SizedBox(height: 50,),
               Row(
                 children: [
                   Expanded(
@@ -176,14 +176,14 @@ final List<NewsArticle> newsArticles1 = [
                         alignment: Alignment.centerRight,
                         child: Icon(
                                 Icons.account_circle,
-                                size: 70,
-                                color: Colors.black,
+                                size: 56,
+                                color: Color(0xFF524F4F),
                               ),
                       ), 
                   ),
                 ],
               ), 
-              SizedBox(height: 15,),
+              SizedBox(height: 10,),
               Divider(
                 color: Color(0xFFE6E6E6),
                 height: 1,
@@ -191,7 +191,7 @@ final List<NewsArticle> newsArticles1 = [
               ),
               SizedBox(height:0.5),
               Container(
-                height: 90.0,
+                height: 80,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -271,7 +271,7 @@ final List<NewsArticle> newsArticles1 = [
             height: 1,
             thickness: 1.5,
           ),    
-          SizedBox(height: 12,),
+          SizedBox(height: 9,),
           Expanded(
             child: Container(
               width:screenSize.width,

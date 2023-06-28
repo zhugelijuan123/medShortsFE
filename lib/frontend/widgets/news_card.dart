@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 
 void launchURL(String url) async {
@@ -40,8 +41,9 @@ class NewsArticle {
   });
 }
 
-class NewsCard extends StatelessWidget {
+class NewsCard extends StatefulWidget {
   final NewsArticle article;
+
 
   static final Map<String, Color> colorMap = {
     'Tech': Color.fromARGB(255, 208, 242, 171),
@@ -55,6 +57,27 @@ class NewsCard extends StatelessWidget {
   const NewsCard({required this.article});
 
   @override
+  State<NewsCard> createState() => _NewsCardState();
+}
+
+class _NewsCardState extends State<NewsCard> {
+  final _scrollController = ScrollController();
+  FlutterTts flutterTts = FlutterTts();
+  bool isReading = false;
+
+  void readText(String text) async {
+    if (isReading){
+      await flutterTts.stop();
+    }
+    else{
+      await flutterTts.speak(text);
+    }
+    setState(() {
+      isReading = !isReading;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -65,13 +88,14 @@ class NewsCard extends StatelessWidget {
         ),
         SizedBox(height:6),
         Container(
+          // height:190,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                  article.image,
-                  width:150,
-                  height:150,
+                  widget.article.image,
+                  width:130,
+                  height:146,
                   fit: BoxFit.cover,
                 ),
               SizedBox(width: 10,),
@@ -80,10 +104,24 @@ class NewsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 8),
-                      Text(
-                        article.description,
-                        style:TextStyle(fontFamily: 'NotoSans',fontSize: 16),
+                      Container(
+                        height: 140,
+                          child: RawScrollbar(
+                            thumbVisibility: true,
+                            controller: _scrollController,
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              scrollDirection: Axis.vertical,
+                              child: Container(
+                                child: Text(
+                                  widget.article.description,
+                                  style:TextStyle(fontFamily: 'NotoSans',fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ),
                       ),
+                      SizedBox(height:10),
                       Row(
                     children: [
                       Expanded(
@@ -94,7 +132,7 @@ class NewsCard extends StatelessWidget {
                             baseline: 6.0,
                             child: 
                             Text(
-                              '${article.publishdTime}',
+                              '${widget.article.publishdTime}',
                               style:TextStyle(fontFamily: 'NotoSans',fontSize: 10),
                             ),
                           ),
@@ -110,7 +148,7 @@ class NewsCard extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    launchURL('${article.url}'); // Replace with your website URL
+                                    launchURL('${widget.article.url}'); // Replace with your website URL
                                   },
                                   child: Text(
                                     '...Readmore',
@@ -118,12 +156,19 @@ class NewsCard extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(width: 3,),
+                                InkWell(
+                                  onTap: (){
+                                    readText(widget.article.description);
+                                  },
+                                  child:isReading?Icon(Icons.stop,size: 18,color: Color.fromARGB(255, 239, 68, 21)):Icon(Icons.volume_up,size: 18,color: Color.fromARGB(255, 127, 125, 121),),
+                                ),
+                                SizedBox(width:6),
                                 Container(
                                   width: 12,
                                   height: 12,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: colorMap['${article.category}'], // Replace with your desired color
+                                    color: NewsCard.colorMap['${widget.article.category}'], // Replace with your desired color
                                   ),
                                 ),
                               ],
