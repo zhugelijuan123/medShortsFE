@@ -1,5 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:medpulse/frontend/widgets/news_card.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+
+
+
+
+List<NewsArticle> extractArticle(String jsonString) {
+  List<NewsArticle> articleList = [];
+  dynamic jsonData = json.decode(jsonString);
+
+  articleList = jsonData.map((jsonObject){
+    return NewsArticle(title: jsonObject['title'], description: jsonObject['description'], image: '', author: 'assets/images/mountain.jpeg', publishdTime: '23 mins', category: 'Medication', url: jsonObject['url']);
+  }).toList();
+
+  // List<String> keyList = ['title', 'description', 'urlToImage','author','publishedAt','url'];
+
+  // List<dynamic> jsonList1 = jsonData['title'];
+  // List<dynamic> jsonList2 = jsonData['description'];
+  // List<dynamic> jsonList3 = jsonData['url'];
+
+
+  // for (int i = 0; i < jsonList1.length; i++){
+  //   String title = jsonList1[i]['title'];
+  //   String description = jsonList2[i]['description'];
+  //   String url = jsonList3[i]['url'];
+  //   NewsArticle myArticle = NewsArticle(title: title, description: description, image: 'assets/images/mountain.jpeg', author: 'Author2', publishdTime: "23 mins", category: 'Medication', url: url);
+  //   articleList.add(myArticle);
+  // }
+
+  return articleList;
+
+}
+
+
 
 class NewsFeedScreen extends StatefulWidget {
   @override
@@ -42,6 +77,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
     Color.fromARGB(255, 253, 236, 236),
     Color.fromARGB(255, 240, 250, 230),
   ];
+
 
 final List<NewsArticle> newsArticles1 = [
     NewsArticle(
@@ -111,17 +147,48 @@ final List<NewsArticle> newsArticles1 = [
   ];
 
   List<String> selectedCategories = [];
+  List<NewsArticle> newsArticles2 = [];
+
+  Future<List<NewsArticle>> fetchData() async {
+    final response = await http.get(Uri.parse('http://localhost:8080/fetchnews/'));
+    if (response.statusCode == 200){
+      final data = response.body;
+      List<dynamic> jsonList = json.decode(data);
+
+      newsArticles2 = jsonList
+        .where((jsonObject) =>
+          jsonObject['description'] != null && jsonObject['publishedAt'] != null && jsonObject['urlToImage'] != null && jsonObject['url'] != null 
+        )
+        .map((jsonObject){
+        return NewsArticle(
+          title: jsonObject['title'], 
+          description: jsonObject['description'], 
+          image: jsonObject['urlToImage'], 
+          author: 'lijuan', 
+          publishdTime: jsonObject['publishedTimeGap'], 
+          category: 'Medication', 
+          url: jsonObject['url']);
+      }).toList();
+      return newsArticles2;
+
+    } else{
+      print('Error: ${response.statusCode}');
+      return [];
+    }
+  }
 
   List<NewsArticle> getSelectedNewsArticles() {
     if (selectedCategories.length == 0 || selectedCategories.length == categoryNames.length)
-      return newsArticles1;
+      return newsArticles2;
     else{
-      List<NewsArticle> filteredArticles = newsArticles1.where((article) => selectedCategories.contains(article.category)).toList();
+      List<NewsArticle> filteredArticles = newsArticles2.where((article) => selectedCategories.contains(article.category)).toList();
       return filteredArticles;
     }
   }
 
   final PageController _pageController = PageController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +196,15 @@ final List<NewsArticle> newsArticles1 = [
 
     return Scaffold(
       appBar: null,
-      body: 
-          Column(
+      body: FutureBuilder<List<NewsArticle>> (
+        future:fetchData(),
+        builder:(BuildContext context, AsyncSnapshot<List<NewsArticle>> snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting){
+            return Text('loading');
+          } else if (snapshot.hasError){
+            return Text('Error: ${snapshot.error}');
+          } else{        
+          return Column(
             children: [
               SizedBox(height: 50,),
               Row(
@@ -294,7 +368,8 @@ final List<NewsArticle> newsArticles1 = [
             ),
           ),
         ],
-      ),
+      );
+      }},),
     );
   }
 }

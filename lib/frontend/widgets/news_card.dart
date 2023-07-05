@@ -92,7 +92,7 @@ class _NewsCardState extends State<NewsCard> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
+              Image.network(
                   widget.article.image,
                   width:130,
                   height:146,
