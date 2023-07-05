@@ -15,21 +15,6 @@ List<NewsArticle> extractArticle(String jsonString) {
     return NewsArticle(title: jsonObject['title'], description: jsonObject['description'], image: '', author: 'assets/images/mountain.jpeg', publishdTime: '23 mins', category: 'Medication', url: jsonObject['url']);
   }).toList();
 
-  // List<String> keyList = ['title', 'description', 'urlToImage','author','publishedAt','url'];
-
-  // List<dynamic> jsonList1 = jsonData['title'];
-  // List<dynamic> jsonList2 = jsonData['description'];
-  // List<dynamic> jsonList3 = jsonData['url'];
-
-
-  // for (int i = 0; i < jsonList1.length; i++){
-  //   String title = jsonList1[i]['title'];
-  //   String description = jsonList2[i]['description'];
-  //   String url = jsonList3[i]['url'];
-  //   NewsArticle myArticle = NewsArticle(title: title, description: description, image: 'assets/images/mountain.jpeg', author: 'Author2', publishdTime: "23 mins", category: 'Medication', url: url);
-  //   articleList.add(myArticle);
-  // }
-
   return articleList;
 
 }

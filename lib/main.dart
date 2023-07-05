@@ -16,7 +16,7 @@ class MyHttpOverrides extends HttpOverrides{
 }
 
 void main() {
-  // HttpOverrides.global = MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
 
