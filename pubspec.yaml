@@ -89,6 +89,9 @@ flutter:
     - assets/images/environment.jpeg
     - assets/images/person.jpeg
     - assets/images/mountain.jpeg
+    - assets/images/interestCategories.png
+    - assets/images/pillScreenshot.png
+    - assets/images/syringeScreenshot.png
     
 
   # The following line ensures that the Material Icons font is

@@ -154,7 +154,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                     child: Align(
                       alignment: AlignmentDirectional.center,
                       child: Image.asset(
-                        '/Users/AL51493/Downloads/FlutterVSCode/pillScreenshot.png',
+                        'assets/images/pillScreenshot.png',
                         width: 300,
                         height: 100,
                       ),
@@ -171,7 +171,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                     child: Align(
                       alignment: AlignmentDirectional.center,
                       child: Image.asset(
-                        '/Users/AL51493/Downloads/FlutterVSCode/syringeScreenshot.png',
+                        'assets/images/syringeScreenshot.png',
                         width: 300,
                         height: 100,
                       ),
@@ -263,7 +263,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   child: Align(
                     alignment: AlignmentDirectional.center,
                     child: Image.asset(
-                      '/Users/AL51493/Downloads/FlutterVSCode/interestCategories.png',
+                      'assets/images/interestCategories.png',
                       width: 350,
                       height: 350,
                     ),
