@@ -3,10 +3,6 @@ import 'package:medpulse/frontend/widgets/news_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
-
-
-
 List<NewsArticle> extractArticle(String jsonString) {
   List<NewsArticle> articleList = [];
   dynamic jsonData = json.decode(jsonString);
@@ -18,8 +14,6 @@ List<NewsArticle> extractArticle(String jsonString) {
   return articleList;
 
 }
-
-
 
 class NewsFeedScreen extends StatefulWidget {
   @override
@@ -133,29 +127,14 @@ final List<NewsArticle> newsArticles1 = [
 
   List<String> selectedCategories = [];
   List<NewsArticle> newsArticles2 = [];
+  dynamic jsonResponse;
 
-  Future<List<NewsArticle>> fetchData() async {
+  Future<dynamic> fetchData() async {
     final response = await http.get(Uri.parse('http://localhost:8080/fetchnews/'));
     if (response.statusCode == 200){
       final data = response.body;
-      List<dynamic> jsonList = json.decode(data);
-
-      newsArticles2 = jsonList
-        .where((jsonObject) =>
-          jsonObject['description'] != null && jsonObject['publishedAt'] != null && jsonObject['urlToImage'] != null && jsonObject['url'] != null 
-        )
-        .map((jsonObject){
-        return NewsArticle(
-          title: jsonObject['title'], 
-          description: jsonObject['description'], 
-          image: jsonObject['urlToImage'], 
-          author: 'lijuan', 
-          publishdTime: jsonObject['publishedTimeGap'], 
-          category: 'Medication', 
-          url: jsonObject['url']);
-      }).toList();
-      return newsArticles2;
-
+      jsonResponse = json.decode(data);
+      return jsonResponse;
     } else{
       print('Error: ${response.statusCode}');
       return [];
@@ -163,16 +142,44 @@ final List<NewsArticle> newsArticles1 = [
   }
 
   List<NewsArticle> getSelectedNewsArticles() {
-    if (selectedCategories.length == 0 || selectedCategories.length == categoryNames.length)
-      return newsArticles2;
-    else{
-      List<NewsArticle> filteredArticles = newsArticles2.where((article) => selectedCategories.contains(article.category)).toList();
-      return filteredArticles;
+    List<NewsArticle> newsArticles3 = [];
+    if (selectedCategories.length == 0 || selectedCategories.length == categoryNames.length){
+      dynamic js = jsonResponse['articles']['all'];
+      for (int idx = 0;idx<js.length;idx++){
+        dynamic jsonObject = js[idx];
+        if (jsonObject['summary'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
+          newsArticles3.add(NewsArticle(
+            title: jsonObject['title'], 
+            description: jsonObject['summary'], 
+            image: jsonObject['imageUrl'], 
+            author: 'lijuan', 
+            publishdTime: jsonObject['publishedTimeGap'], 
+            category: 'Medication', 
+            url: jsonObject['url']));
+        }
+      }
+      return newsArticles3;
     }
+    else{
+      dynamic js = jsonResponse['articles'][selectedCategories[0]];
+      for (int idx = 0;idx<js.length;idx++){
+        dynamic jsonObject = js[idx];
+        if (jsonObject['summary'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
+          newsArticles3.add(NewsArticle(
+            title: jsonObject['title'], 
+            description: jsonObject['summary'], 
+            image: jsonObject['imageUrl'], 
+            author: 'lijuan', 
+            publishdTime: jsonObject['publishedTimeGap'], 
+            category: 'Medication', 
+            url: jsonObject['url']));
+        }
+    }
+    return newsArticles3;
+  }
   }
 
   final PageController _pageController = PageController();
-
 
 
   @override
@@ -181,9 +188,9 @@ final List<NewsArticle> newsArticles1 = [
 
     return Scaffold(
       appBar: null,
-      body: FutureBuilder<List<NewsArticle>> (
+      body: FutureBuilder<dynamic> (
         future:fetchData(),
-        builder:(BuildContext context, AsyncSnapshot<List<NewsArticle>> snapshot){
+        builder:(BuildContext context, AsyncSnapshot<dynamic> snapshot){
           if (snapshot.connectionState == ConnectionState.waiting){
             return Text('loading');
           } else if (snapshot.hasError){
@@ -270,11 +277,14 @@ final List<NewsArticle> newsArticles1 = [
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  if (selectedCategories.contains(category)) {
-                                    selectedCategories.remove(category);
-                                  } else {
-                                    selectedCategories.add(category);
-                                  }
+                                  //Multiple choices
+                                  // if (selectedCategories.contains(category)) {
+                                  //   selectedCategories.remove(category);
+                                  // } else {
+                                  //   selectedCategories.add(category);
+                                  // }
+                                  //Only one choices
+                                  selectedCategories = [category];
                                 });
                               },
                               child: Column(
