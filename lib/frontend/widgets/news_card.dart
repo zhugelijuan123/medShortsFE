@@ -46,11 +46,11 @@ class NewsCard extends StatefulWidget {
 
 
   static final Map<String, Color> colorMap = {
-    'Tech': Color.fromARGB(255, 208, 242, 171),
     'Medication': Color.fromARGB(255, 244, 219, 181),
-    'Research':Color.fromARGB(255, 228, 162, 162),
-    'Mental Health': Color.fromARGB(255, 167, 185, 234),
-    'Nutrition': Color.fromARGB(255, 231, 159, 159),
+    'Mental Health': Color.fromARGB(210, 216, 224, 251),
+    'Nutrition': Color.fromARGB(255, 249, 231, 231),
+    'Tech': Color.fromARGB(255, 192, 229, 236),
+    'Research':Color.fromARGB(255, 250, 232, 227),
     'Environment':Color.fromARGB(255, 205, 244, 165),
   };
 

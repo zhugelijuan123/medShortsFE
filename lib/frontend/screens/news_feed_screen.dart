@@ -22,38 +22,29 @@ class NewsFeedScreen extends StatefulWidget {
 
 class _NewsFeedScreenState extends State<NewsFeedScreen> {
   final List<String> imagePaths = [
-    'assets/images/tech.png',
     'assets/images/medication.png',
-    'assets/images/research.png',
     'assets/images/mental_health_ori.png',
     'assets/images/nutrition.png',
+    'assets/images/tech_2.png',
+    'assets/images/research.png',
     'assets/images/environment.jpeg',
   ];
 
   final List<String> categoryNames = [
-      'Tech',
       'Medication',
-      'Research',
       'Mental Health',
       'Nutrition',
+      'Tech',
+      'Research',
       'Environment',
   ];
 
-  final List<String> imageNames = [
-    'Tech',
-    'Medication',
-    'Research',
-    'Mental Health',
-    'Nutrition',
-    'Environment',
-  ];
-
   final List<Color> backgroundColors = [
-    Color.fromARGB(255, 239, 250, 227),
-    Color.fromARGB(255, 250, 239, 222),
+    Color.fromARGB(255, 250, 236, 219),
+    Color.fromARGB(210, 233, 238, 255),
     Color.fromARGB(255, 249, 231, 231),
-    Color.fromARGB(255, 239, 243, 254),
-    Color.fromARGB(255, 253, 236, 236),
+    Color.fromARGB(255, 216, 238, 244),
+    Color.fromARGB(255, 249, 238, 235),
     Color.fromARGB(255, 240, 250, 230),
   ];
 
@@ -125,7 +116,7 @@ final List<NewsArticle> newsArticles1 = [
     // Add more news articles for menu item 1 as needed
   ];
 
-  List<String> selectedCategories = [];
+  List<String> selectedCategories = ['Medication'];
   List<NewsArticle> newsArticles2 = [];
   dynamic jsonResponse;
 
@@ -144,7 +135,7 @@ final List<NewsArticle> newsArticles1 = [
   List<NewsArticle> getSelectedNewsArticles() {
     List<NewsArticle> newsArticles3 = [];
     if (selectedCategories.length == 0 || selectedCategories.length == categoryNames.length){
-      dynamic js = jsonResponse['articles']['all'];
+      dynamic js = jsonResponse['articles'][selectedCategories[0]];
       for (int idx = 0;idx<js.length;idx++){
         dynamic jsonObject = js[idx];
         if (jsonObject['summary'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
@@ -154,7 +145,7 @@ final List<NewsArticle> newsArticles1 = [
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['publishedTimeGap'], 
-            category: 'Medication', 
+            category: selectedCategories[0], 
             url: jsonObject['url']));
         }
       }
@@ -171,7 +162,7 @@ final List<NewsArticle> newsArticles1 = [
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['publishedTimeGap'], 
-            category: 'Medication', 
+            category: selectedCategories[0], 
             url: jsonObject['url']));
         }
     }
@@ -267,7 +258,7 @@ final List<NewsArticle> newsArticles1 = [
                         itemCount: imagePaths.length,
                         itemBuilder: (BuildContext context, int index) {
                           final imagePath = imagePaths[index];
-                          final imageName = imageNames[index];
+                          final imageName = categoryNames[index];
                           final color = backgroundColors[index];
                           final category = categoryNames[index];
                     
