@@ -5,8 +5,18 @@ import 'package:provider/provider.dart';
 import 'frontend/screens/signup_screen.dart';
 import 'frontend/screens/news_feed_screen.dart';
 import 'frontend/screens/introduction_screen.dart';
+import 'dart:io';
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
 

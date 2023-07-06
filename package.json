@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "natural": "^6.5.0",
+    "openai": "^3.3.0"
+  }
+}
