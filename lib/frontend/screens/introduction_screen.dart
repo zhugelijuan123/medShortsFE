@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'signup_screen.dart';
+import 'validate_registration_screen.dart';
 import 'signin_screen.dart';
 import 'news_feed_screen.dart';
 
@@ -360,7 +360,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignupScreen()),
+                      MaterialPageRoute(builder: (context) => ValidateRegistrationScreen()),
                     );
                     // Add your signup button logic here
                   },

@@ -48,77 +48,10 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
     Color.fromARGB(255, 240, 250, 230),
   ];
 
-
-final List<NewsArticle> newsArticles1 = [
-    NewsArticle(
-      title: 'News Headline 1',
-      description: 'The UK\'s watchdogs have agreed to a suite of measures to protect consumers from being ripped off by companies during the cost of living crisis. The measures are unlikely to deliver much financial support to Britons who have seen sharp jumps across a raft of their household bills, at the same time as swallowing soaring mortgage costs due to higher interest rates. The CMA is to publish a planned study into the profit margins of supermarkets and fuel retailers on Monday, and will release a study into grocery pricing in the next few weeks. Ofgem has committed to publishing a review of the business energy market over the summer, and the FCA has vowed to examine how banks and building societies passed through interest rate changes.',
-      image: 'assets/images/person.jpeg',
-      author: 'Author 1',
-      publishdTime: '23 mins ago',
-      category: 'Tech',
-      url:'https://www.today.com/video/ally-love-shares-tips-for-keeping-good-vibes-all-day-long-184084549930',
-    ),
-    NewsArticle(
-      title: 'News Headline 2',
-      description: 'The scent of freshly baked cookies fills the kitchen, tempting even the strongest willpower.The aroma of sizzling bacon drifts from the stove, signaling the start of a delicious breakfast.',
-      image: 'assets/images/mountain.jpeg',
-      author: 'Author 2',
-      publishdTime: '2 hours ago',
-      category: 'Medication',
-      url:'https://www.statnews.com/2023/06/21/cdc-advisory-panel-recommends-seniors-may-get-rsv-vaccine/',
-    ),
-    NewsArticle(
-      title: 'News Headline 2',
-      description: 'The scent of freshly baked cookies fills the kitchen, tempting even the strongest willpower.The aroma of sizzling bacon drifts from the stove, signaling the start of a delicious breakfast.',
-      image: 'assets/images/mountain.jpeg',
-      author: 'Author 2',
-      publishdTime: '2 hours ago',
-      category: 'Mental Health',
-      url:'https://www.statnews.com/2023/06/21/cdc-advisory-panel-recommends-seniors-may-get-rsv-vaccine/',
-    ),
-    NewsArticle(
-      title: 'News Headline 2',
-      description: 'The scent of freshly baked cookies fills the kitchen, tempting even the strongest willpower.The aroma of sizzling bacon drifts from the stove, signaling the start of a delicious breakfast.',
-      image: 'assets/images/mountain.jpeg',
-      author: 'Author 2',
-      publishdTime: '2 hours ago',
-      category: 'Nutrition',
-      url:'https://www.statnews.com/2023/06/21/cdc-advisory-panel-recommends-seniors-may-get-rsv-vaccine/',     
-    ),
-    NewsArticle(
-      title: 'News Headline 2',
-      description: 'The scent of freshly baked cookies fills the kitchen, tempting even the strongest willpower.The aroma of sizzling bacon drifts from the stove, signaling the start of a delicious breakfast.',
-      image: 'assets/images/mountain.jpeg',
-      author: 'Author 2',
-      publishdTime: '2 hours ago',
-      category: 'Research',
-      url:'https://www.statnews.com/2023/06/21/cdc-advisory-panel-recommends-seniors-may-get-rsv-vaccine/',
-    ),
-    NewsArticle(
-      title: 'News Headline 2',
-      description: 'The scent of freshly baked cookies fills the kitchen, tempting even the strongest willpower.The aroma of sizzling bacon drifts from the stove, signaling the start of a delicious breakfast.',
-      image: 'assets/images/mountain.jpeg',
-      author: 'Author 2',
-      publishdTime: '2 hours ago',
-      category: 'Research',
-      url:'https://www.statnews.com/2023/06/21/cdc-advisory-panel-recommends-seniors-may-get-rsv-vaccine/',
-    ),
-    NewsArticle(
-      title: 'News Headline 2',
-      description: 'The scent of freshly baked cookies fills the kitchen, tempting even the strongest willpower.The aroma of sizzling bacon drifts from the stove, signaling the start of a delicious breakfast.',
-      image: 'assets/images/mountain.jpeg',
-      author: 'Author 2',
-      publishdTime: '2 hours ago',
-      category: 'Environment',
-      url:'https://www.statnews.com/2023/06/21/cdc-advisory-panel-recommends-seniors-may-get-rsv-vaccine/',
-    ),
-    // Add more news articles for menu item 1 as needed
-  ];
-
   List<String> selectedCategories = ['Medication'];
-  List<NewsArticle> newsArticles2 = [];
   dynamic jsonResponse;
+  final PageController _pageController = PageController();
+
 
   Future<dynamic> fetchData() async {
     final response = await http.get(Uri.parse('http://localhost:8080/fetchnews/'));
@@ -133,13 +66,13 @@ final List<NewsArticle> newsArticles1 = [
   }
 
   List<NewsArticle> getSelectedNewsArticles() {
-    List<NewsArticle> newsArticles3 = [];
+    List<NewsArticle> newsArticles = [];
     if (selectedCategories.length == 0 || selectedCategories.length == categoryNames.length){
       dynamic js = jsonResponse['articles'][selectedCategories[0]];
       for (int idx = 0;idx<js.length;idx++){
         dynamic jsonObject = js[idx];
         if (jsonObject['summary'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
-          newsArticles3.add(NewsArticle(
+          newsArticles.add(NewsArticle(
             title: jsonObject['title'], 
             description: jsonObject['summary'], 
             image: jsonObject['imageUrl'], 
@@ -149,16 +82,16 @@ final List<NewsArticle> newsArticles1 = [
             url: jsonObject['url']));
         }
       }
-      return newsArticles3;
+      return newsArticles;
     }
     else{
       dynamic js = jsonResponse['articles'][selectedCategories[0]];
       for (int idx = 0;idx<js.length;idx++){
         dynamic jsonObject = js[idx];
-        if (jsonObject['summary'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
-          newsArticles3.add(NewsArticle(
+        if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
+          newsArticles.add(NewsArticle(
             title: jsonObject['title'], 
-            description: jsonObject['summary'], 
+            description: jsonObject['summary_new'], 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['publishedTimeGap'], 
@@ -166,16 +99,18 @@ final List<NewsArticle> newsArticles1 = [
             url: jsonObject['url']));
         }
     }
-    return newsArticles3;
+    return newsArticles;
   }
   }
 
-  final PageController _pageController = PageController();
 
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final String registerToken = ModalRoute.of(context)?.settings.arguments as String;
+    print('newsfeedpage');
+    print(registerToken);
 
     return Scaffold(
       appBar: null,

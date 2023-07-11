@@ -2,7 +2,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'frontend/screens/signup_screen.dart';
+import 'frontend/screens/validate_registration_screen.dart';
 import 'frontend/screens/news_feed_screen.dart';
 import 'frontend/screens/introduction_screen.dart';
 import 'dart:io';
