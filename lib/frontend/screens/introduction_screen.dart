@@ -303,8 +303,8 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
-                        spreadRadius: 4,
-                        blurRadius: 4,
+                        spreadRadius: 0,
+                        blurRadius: 0,
                       ),
                     ],
                   ),
@@ -319,8 +319,8 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
-                        spreadRadius: 0,
-                        blurRadius: 0,
+                        spreadRadius: 4,
+                        blurRadius: 4,
                       ),
                     ],
                   ),

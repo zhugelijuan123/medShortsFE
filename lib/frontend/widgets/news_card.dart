@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import '../../constants/constants.dart';
 
 
 void launchURL(String url) async {
@@ -43,16 +44,6 @@ class NewsArticle {
 
 class NewsCard extends StatefulWidget {
   final NewsArticle article;
-
-
-  static final Map<String, Color> colorMap = {
-    'Medication': Color.fromARGB(255, 244, 219, 181),
-    'Mental Health': Color.fromARGB(210, 216, 224, 251),
-    'Nutrition': Color.fromARGB(255, 249, 231, 231),
-    'Tech': Color.fromARGB(255, 192, 229, 236),
-    'Research':Color.fromARGB(255, 250, 232, 227),
-    'Environment':Color.fromARGB(255, 205, 244, 165),
-  };
 
   const NewsCard({required this.article});
 
@@ -168,7 +159,7 @@ class _NewsCardState extends State<NewsCard> {
                                   height: 12,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: NewsCard.colorMap['${widget.article.category}'], // Replace with your desired color
+                                    color: colorMap['${widget.article.category}'], // Replace with your desired color
                                   ),
                                 ),
                               ],

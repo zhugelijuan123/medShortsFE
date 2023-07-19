@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:medpulse/frontend/widgets/news_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'introduction_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../constants/constants.dart';
 
 List<NewsArticle> extractArticle(String jsonString) {
   List<NewsArticle> articleList = [];
@@ -21,71 +24,51 @@ class NewsFeedScreen extends StatefulWidget {
 }
 
 class _NewsFeedScreenState extends State<NewsFeedScreen> {
-  final List<String> imagePaths = [
-    'assets/images/medication.png',
-    'assets/images/mental_health_ori.png',
-    'assets/images/nutrition.png',
-    'assets/images/tech_2.png',
-    'assets/images/research.png',
-    'assets/images/environment.jpeg',
-  ];
+  bool isLoggedIn = false;
+  var token;
 
-  final List<String> categoryNames = [
-      'Medication',
-      'Mental Health',
-      'Nutrition',
-      'Tech',
-      'Research',
-      'Environment',
-  ];
 
-  final List<Color> backgroundColors = [
-    Color.fromARGB(255, 250, 236, 219),
-    Color.fromARGB(210, 233, 238, 255),
-    Color.fromARGB(255, 249, 231, 231),
-    Color.fromARGB(255, 216, 238, 244),
-    Color.fromARGB(255, 249, 238, 235),
-    Color.fromARGB(255, 240, 250, 230),
-  ];
+  @override
+  void initState(){
+    super.initState();
+    // checkLoginStatus();
+    fetchData();
+  }
 
   List<String> selectedCategories = ['Medication'];
-  dynamic jsonResponse;
+  late dynamic jsonResponse = {};
   final PageController _pageController = PageController();
 
 
   Future<dynamic> fetchData() async {
-    final response = await http.get(Uri.parse('http://localhost:8080/fetchnews/'));
+    final storage = const FlutterSecureStorage();
+    token = await storage.read(key:'token');
+    Map<String, String> headers = {
+      'Authorization':'Bearer $token',
+    };
+
+    final response = await http.get(Uri.parse('http://localhost:8080/fetchnews/'), headers: headers);
     if (response.statusCode == 200){
       final data = response.body;
-      jsonResponse = json.decode(data);
+      setState(() {
+        jsonResponse = json.decode(data);
+      });
+      print(jsonResponse);
       return jsonResponse;
     } else{
       print('Error: ${response.statusCode}');
-      return [];
+      setState(() {
+        jsonResponse = 'Auth error';
+      });
+      return '';
     }
   }
 
   List<NewsArticle> getSelectedNewsArticles() {
     List<NewsArticle> newsArticles = [];
-    if (selectedCategories.length == 0 || selectedCategories.length == categoryNames.length){
-      dynamic js = jsonResponse['articles'][selectedCategories[0]];
-      for (int idx = 0;idx<js.length;idx++){
-        dynamic jsonObject = js[idx];
-        if (jsonObject['summary'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
-          newsArticles.add(NewsArticle(
-            title: jsonObject['title'], 
-            description: jsonObject['summary'], 
-            image: jsonObject['imageUrl'], 
-            author: 'lijuan', 
-            publishdTime: jsonObject['publishedTimeGap'], 
-            category: selectedCategories[0], 
-            url: jsonObject['url']));
-        }
-      }
-      return newsArticles;
-    }
-    else{
-      dynamic js = jsonResponse['articles'][selectedCategories[0]];
+    
+    if (jsonResponse.containsKey(selectedCategories[0])){
+      dynamic js = jsonResponse[selectedCategories[0]];
       for (int idx = 0;idx<js.length;idx++){
         dynamic jsonObject = js[idx];
         if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
@@ -98,199 +81,438 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             category: selectedCategories[0], 
             url: jsonObject['url']));
         }
+      }
     }
-    return newsArticles;
+      return newsArticles;
   }
-  }
 
-
-
+  
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final String registerToken = ModalRoute.of(context)?.settings.arguments as String;
-    print('newsfeedpage');
-    print(registerToken);
-
-    return Scaffold(
+   
+    if (jsonResponse == 'Auth error'){
+      return Scaffold(
       appBar: null,
-      body: FutureBuilder<dynamic> (
-        future:fetchData(),
-        builder:(BuildContext context, AsyncSnapshot<dynamic> snapshot){
-          if (snapshot.connectionState == ConnectionState.waiting){
-            return Text('loading');
-          } else if (snapshot.hasError){
-            return Text('Error: ${snapshot.error}');
-          } else{        
-          return Column(
+      body:Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 50,),
-              Row(
+              SizedBox(width: 16,),
+              Flexible(
+                child: Text('Authorization or fetch news failed, please go back to sign up/log in!',
+                style: TextStyle(fontSize: 30,),),
+              ),
+            ],
+          ),
+          SizedBox(height:30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: ElevatedButton(
+                              onPressed: () {
+                                // Implement signup logic here
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>  SwipeCombination(),
+                                    ),
+                                );
+                                
+                              },
+                              style: ElevatedButton.styleFrom(
+                                      primary: const Color(0xFF414BB2),
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              0), // Set the border radius to 0 for right angles
+                                        ),
+                                      ),
+                                      minimumSize: const Size(
+                                          double.infinity, 50), // Set the desired height
+                                    ),
+                              child: const Text(
+                                  'go back',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                            ),
+                  ),
+            ],
+          ),
+        ],
+      ));
+    }
+    else{
+        return Scaffold(
+      appBar: null,
+      body: Column(
                 children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Baseline(
-                        baselineType: TextBaseline.alphabetic,
-                        baseline: 6.0,
-                        child: RichText(
-                          text: const TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '\nMed',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Arial',
-                                  color:Colors.black,
-                                ),
+                  SizedBox(height: 50,),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Baseline(
+                            baselineType: TextBaseline.alphabetic,
+                            baseline: 6.0,
+                            child: RichText(
+                              text: const TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '\nMed',
+                                    style: TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Arial',
+                                      color:Colors.black,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: 'Shorts',
+                                    style: TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic,
+                                      fontFamily: 'Arial',
+                                      color: Color(0xFF2CB197),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              TextSpan(
-                                text: 'Shorts',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
-                                  fontFamily: 'Arial',
-                                  color: Color(0xFF2CB197),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0), 
+                        child:
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(
+                                    Icons.account_circle,
+                                    size: 56,
+                                    color: Color(0xFF524F4F),
+                                  ),
+                          ), 
+                      ),
+                    ],
+                  ), 
+                  SizedBox(height: 10,),
+                  Divider(
+                    color: Color(0xFFE6E6E6),
+                    height: 1,
+                    thickness: 1.5,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 10.0), 
-                    child:
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                                Icons.account_circle,
-                                size: 56,
-                                color: Color(0xFF524F4F),
-                              ),
-                      ), 
-                  ),
-                ],
-              ), 
-              SizedBox(height: 10,),
-              Divider(
-                color: Color(0xFFE6E6E6),
-                height: 1,
-                thickness: 1.5,
-              ),
-              SizedBox(height:0.5),
-              Container(
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: imagePaths.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final imagePath = imagePaths[index];
-                          final imageName = categoryNames[index];
-                          final color = backgroundColors[index];
-                          final category = categoryNames[index];
-                    
-                          return Padding(
-                    
-                            padding: EdgeInsets.all(1.5),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  //Multiple choices
-                                  // if (selectedCategories.contains(category)) {
-                                  //   selectedCategories.remove(category);
-                                  // } else {
-                                  //   selectedCategories.add(category);
-                                  // }
-                                  //Only one choices
-                                  selectedCategories = [category];
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  Stack(
+                  SizedBox(height:0.5),
+                  Container(
+                    height: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: imagePaths.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final imagePath = imagePaths[index];
+                              final imageName = categoryNames[index];
+                              final color = backgroundColors[index];
+                              final category = categoryNames[index];
+                        
+                              return Padding(
+                        
+                                padding: EdgeInsets.all(1.5),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      //Multiple choices
+                                      // if (selectedCategories.contains(category)) {
+                                      //   selectedCategories.remove(category);
+                                      // } else {
+                                      //   selectedCategories.add(category);
+                                      // }
+                                      //Only one choices
+                                      selectedCategories = [category];
+                                    });
+                                  },
+                                  child: Column(
                                     children: [
-                                      Container(
-                                        width: 78.0,
-                                        height: 60.0,
-                                        decoration: BoxDecoration(
-                                          color: selectedCategories.contains(category) ? color : Colors.transparent,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                      ),
-                                      Column(
+                                      Stack(
                                         children: [
                                           Container(
                                             width: 78.0,
                                             height: 60.0,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Image.asset(
-                                                imagePath,
-                                                width: 38.0,
-                                                height: 38,
-                                                fit: BoxFit.cover,
+                                            decoration: BoxDecoration(
+                                              color: selectedCategories.contains(category) ? color : Colors.transparent,
+                                              borderRadius: BorderRadius.circular(10.0),
+                                            ),
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                width: 78.0,
+                                                height: 60.0,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Image.asset(
+                                                    imagePath,
+                                                    width: 38.0,
+                                                    height: 38,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                              Center(
+                                                child: Text(
+                                                  '$imageName',
+                                                  style: TextStyle(fontSize: 12.0, fontFamily: 'Arial',),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Center(
-                                            child: Text(
-                                              '$imageName',
-                                              style: TextStyle(fontSize: 12.0, fontFamily: 'Arial',),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                                        ],),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        if (imagePaths.length > 5)
+                          Icon(Icons.more_vert),
+                      ],
                     ),
-                    if (imagePaths.length > 5)
-                      Icon(Icons.more_vert),
-                  ],
+                ),  
+              Divider(
+                color: Color(0xFFE6E6E6),
+                height: 1,
+                thickness: 1.5,
+              ),    
+              SizedBox(height: 9,),
+              Expanded(
+                child: Container(
+                  width:screenSize.width,
+                  child: 
+                  MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    child: 
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: getSelectedNewsArticles().length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: NewsCard(article: getSelectedNewsArticles()[index]),
+                          );
+                      },
+                    ),
+                  )
                 ),
-            ),  
-          Divider(
-            color: Color(0xFFE6E6E6),
-            height: 1,
-            thickness: 1.5,
-          ),    
-          SizedBox(height: 9,),
-          Expanded(
-            child: Container(
-              width:screenSize.width,
-              child: 
-              MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: 
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: getSelectedNewsArticles().length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: NewsCard(article: getSelectedNewsArticles()[index]),
-                      );
-                  },
-                ),
-              )
-            ),
+              ),
+            ],
           ),
-        ],
-      );
-      }},),
     );
+    }
   }
+
+
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   final screenSize = MediaQuery.of(context).size;
+  //   return Scaffold(
+  //     appBar: null,
+  //     body: FutureBuilder<dynamic> (
+  //       future:jsonResponse,
+  //       builder:(BuildContext context, AsyncSnapshot<dynamic> snapshot){
+  //         if (snapshot.connectionState == ConnectionState.waiting){
+  //           return Center(child:CircularProgressIndicator());
+  //         } else if (snapshot.hasError){
+  //           return Text('Error: ${snapshot.error}');
+  //         } else if (snapshot.hasData){   
+  //             jsonResponse = snapshot.data;    
+  //             return Column(
+  //               children: [
+  //                 SizedBox(height: 50,),
+  //                 Row(
+  //                   children: [
+  //                     Expanded(
+  //                       child: Align(
+  //                         alignment: Alignment.centerLeft,
+  //                         child: Baseline(
+  //                           baselineType: TextBaseline.alphabetic,
+  //                           baseline: 6.0,
+  //                           child: RichText(
+  //                             text: const TextSpan(
+  //                               children: [
+  //                                 TextSpan(
+  //                                   text: '\nMed',
+  //                                   style: TextStyle(
+  //                                     fontSize: 32,
+  //                                     fontWeight: FontWeight.bold,
+  //                                     fontFamily: 'Arial',
+  //                                     color:Colors.black,
+  //                                   ),
+  //                                 ),
+  //                                 TextSpan(
+  //                                   text: 'Shorts',
+  //                                   style: TextStyle(
+  //                                     fontSize: 32,
+  //                                     fontWeight: FontWeight.bold,
+  //                                     fontStyle: FontStyle.italic,
+  //                                     fontFamily: 'Arial',
+  //                                     color: Color(0xFF2CB197),
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     Padding(
+  //                       padding: EdgeInsets.only(right: 10.0), 
+  //                       child:
+  //                         Align(
+  //                           alignment: Alignment.centerRight,
+  //                           child: Icon(
+  //                                   Icons.account_circle,
+  //                                   size: 56,
+  //                                   color: Color(0xFF524F4F),
+  //                                 ),
+  //                         ), 
+  //                     ),
+  //                   ],
+  //                 ), 
+  //                 SizedBox(height: 10,),
+  //                 Divider(
+  //                   color: Color(0xFFE6E6E6),
+  //                   height: 1,
+  //                   thickness: 1.5,
+  //                 ),
+  //                 SizedBox(height:0.5),
+  //                 Container(
+  //                   height: 80,
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.start,
+  //                     children: [
+  //                       Expanded(
+  //                         child: ListView.builder(
+  //                           scrollDirection: Axis.horizontal,
+  //                           itemCount: imagePaths.length,
+  //                           itemBuilder: (BuildContext context, int index) {
+  //                             final imagePath = imagePaths[index];
+  //                             final imageName = categoryNames[index];
+  //                             final color = backgroundColors[index];
+  //                             final category = categoryNames[index];
+                        
+  //                             return Padding(
+                        
+  //                               padding: EdgeInsets.all(1.5),
+  //                               child: GestureDetector(
+  //                                 onTap: () {
+  //                                   setState(() {
+  //                                     //Multiple choices
+  //                                     // if (selectedCategories.contains(category)) {
+  //                                     //   selectedCategories.remove(category);
+  //                                     // } else {
+  //                                     //   selectedCategories.add(category);
+  //                                     // }
+  //                                     //Only one choices
+  //                                     selectedCategories = [category];
+  //                                   });
+  //                                 },
+  //                                 child: Column(
+  //                                   children: [
+  //                                     Stack(
+  //                                       children: [
+  //                                         Container(
+  //                                           width: 78.0,
+  //                                           height: 60.0,
+  //                                           decoration: BoxDecoration(
+  //                                             color: selectedCategories.contains(category) ? color : Colors.transparent,
+  //                                             borderRadius: BorderRadius.circular(10.0),
+  //                                           ),
+  //                                         ),
+  //                                         Column(
+  //                                           children: [
+  //                                             Container(
+  //                                               width: 78.0,
+  //                                               height: 60.0,
+  //                                               child: Align(
+  //                                                 alignment: Alignment.center,
+  //                                                 child: Image.asset(
+  //                                                   imagePath,
+  //                                                   width: 38.0,
+  //                                                   height: 38,
+  //                                                   fit: BoxFit.cover,
+  //                                                 ),
+  //                                               ),
+  //                                             ),
+  //                                             Center(
+  //                                               child: Text(
+  //                                                 '$imageName',
+  //                                                 style: TextStyle(fontSize: 12.0, fontFamily: 'Arial',),
+  //                                               ),
+  //                                             ),
+  //                                           ],
+  //                                         ),
+  //                                       ],),
+  //                                   ],
+  //                                 ),
+  //                               ),
+  //                             );
+  //                           },
+  //                         ),
+  //                       ),
+  //                       if (imagePaths.length > 5)
+  //                         Icon(Icons.more_vert),
+  //                     ],
+  //                   ),
+  //               ),  
+  //             Divider(
+  //               color: Color(0xFFE6E6E6),
+  //               height: 1,
+  //               thickness: 1.5,
+  //             ),    
+  //             SizedBox(height: 9,),
+  //             Expanded(
+  //               child: Container(
+  //                 width:screenSize.width,
+  //                 child: 
+  //                 MediaQuery.removePadding(
+  //                   context: context,
+  //                   removeTop: true,
+  //                   child: 
+  //                     ListView.builder(
+  //                       scrollDirection: Axis.vertical,
+  //                       itemCount: getSelectedNewsArticles().length,
+  //                       itemBuilder: (BuildContext context, int index) {
+  //                         return Padding(
+  //                           padding: const EdgeInsets.all(2.0),
+  //                           child: NewsCard(article: getSelectedNewsArticles()[index]),
+  //                         );
+  //                     },
+  //                   ),
+  //                 )
+  //               ),
+  //             ),
+  //           ],
+  //         );
+  //     } else{
+  //       return Center(child: Text('No data available'),);
+  //     }
+  //     },),
+  //   );
+  // }
 }

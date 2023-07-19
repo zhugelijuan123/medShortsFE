@@ -6,6 +6,10 @@ import 'frontend/screens/validate_registration_screen.dart';
 import 'frontend/screens/news_feed_screen.dart';
 import 'frontend/screens/introduction_screen.dart';
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'backend/services/signup.dart';
+import 'frontend/screens/podcast.dart';
 
 class MyHttpOverrides extends HttpOverrides{
   @override
@@ -15,13 +19,51 @@ class MyHttpOverrides extends HttpOverrides{
   }
 }
 
-void main() {
+void main() async {
   HttpOverrides.global = MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp
+  ]);
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isLoggedIn = false;
+
+  @override
+  void initState(){
+    super.initState();
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    final storage = const FlutterSecureStorage();
+    var accessToken = await storage.read(key:'token');
+    // print('access token in main.dart');
+    // print(accessToken);
+    if (accessToken != null && accessToken.isNotEmpty){
+      String userInfoResponse = await userInfo(accessToken);
+      if (userInfoResponse == ''){
+        setState(() {
+        isLoggedIn = false;
+      });
+      } else{
+        setState(() {
+        isLoggedIn = true;
+      });
+      }
+      
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +75,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         ),
-        home: MyHomePage(),
+        home: isLoggedIn?NewsFeedScreen():MyHomePage(),
       ),
     );
   }
