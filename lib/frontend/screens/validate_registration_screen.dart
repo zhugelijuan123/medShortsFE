@@ -65,7 +65,7 @@ class _ValidateRegistrationScreenState extends State<ValidateRegistrationScreen>
               children: [
                 Flexible(
                   child: Text('Create your account', 
-                  style:TextStyle(fontSize: 45,fontFamily: 'Caveat',fontWeight: FontWeight.bold,) ,),
+                  style:TextStyle(fontSize: 36,fontFamily: 'Ubuntu',fontWeight: FontWeight.bold,) ,),
                 ),
               ],
             ),
@@ -97,7 +97,6 @@ class _ValidateRegistrationScreenState extends State<ValidateRegistrationScreen>
               child: ElevatedButton(
                 onPressed: () async {
                   // Implement signup logic here
-                  print(userEmail + userPassword + confirmPassword);
                   if (!isEmailValid(userEmail)){
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

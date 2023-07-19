@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'news_feed_screen.dart';
 import '../../backend/services/signup.dart';
 import 'verifyMfa_screen.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 bool isPasswordValid(String password) {
@@ -38,20 +38,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String userEmail = '';
   String userPassword = '';
   String confirmPassword = '';
-  String registerToken= '';
+  String accessToken= '';
   String? errorHint = null;
 
   Future<void> registerAsync(otpValidateToken, password) async {
-    registerToken = await register(otpValidateToken, password);
-    if (registerToken == ''){
+    String registerToken = await register(otpValidateToken, password);
+    accessToken = await middleWare(registerToken);
+
+    if (accessToken == ''){
       errorHint = 'Register failed!';
     }
     else{
+      final storage = const FlutterSecureStorage();
+    // to save token in local storage
+      await storage.write(key: 'token', value: accessToken);
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>  NewsFeedScreen(),
-          settings: RouteSettings(arguments: registerToken)
+          settings: RouteSettings(arguments: accessToken)
           ),
       );
     }
@@ -103,7 +108,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: ElevatedButton(
                 onPressed: () async {
                   // Implement signup logic here
-                  print(userEmail + userPassword + confirmPassword);
                   if (!isPasswordValid(userPassword)){
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
