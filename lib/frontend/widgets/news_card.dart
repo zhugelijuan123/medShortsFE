@@ -4,23 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../../constants/constants.dart';
-
-
-void launchURL(String url) async {
-  try {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  } catch (e) {
-    // Handle the error gracefully
-    print('Error launching URL: $e');
-    // Continue with your application flow
-    // ...
-  }
-}
-
+import '../../backend/services/profile_service.dart';
+import 'dart:convert';
 
 class NewsArticle {
   final String title;
@@ -40,13 +25,32 @@ class NewsArticle {
     required this.category,
     required this.url,
   });
+
+  Map<String, dynamic> toJson(){
+      return {
+        "title":title,
+        "description":description,
+        "image":image,
+        "author":author,
+        "publishdTime":publishdTime,
+        "category":category,
+        "url":url,  
+      };
+    }
+  
 }
 
 class NewsCard extends StatefulWidget {
   final NewsArticle article;
+  final String selectedLanguage;
+  final String accessToken;
+  final String email;
+  final bool pinIconFlag;
 
-  const NewsCard({required this.article});
+  const NewsCard({required this.article, required this.selectedLanguage, required this.accessToken, required this.email, required this.pinIconFlag});
 
+  
+  
   @override
   State<NewsCard> createState() => _NewsCardState();
 }
@@ -54,31 +58,47 @@ class NewsCard extends StatefulWidget {
 class _NewsCardState extends State<NewsCard> {
   final _scrollController = ScrollController();
   FlutterTts flutterTts = FlutterTts();
+
   bool isReading = false;
 
-  void readText(String text) async {
+  bool isPinned = false;
+
+  void readText(String text, String languageCode) async {
     if (isReading){
       await flutterTts.stop();
     }
     else{
+      await flutterTts.setLanguage(languageCode);
       await flutterTts.speak(text);
     }
     setState(() {
       isReading = !isReading;
     });
   }
+  
+  Future<void> onIconTap(newArticle) async{
+    setState(() {
+      isPinned = !isPinned;
+    });
+    List<NewsArticle> newsList = await getProfile(widget.accessToken);
+    newsList.add(newArticle);
+    print(newsList);
+    updateProfile(widget.accessToken, newsList);
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Divider(
-                color: Color(0xFFE6E6E6),
+                color:isPinned?colorMap['${widget.article.category}']:Color.fromARGB(225, 230, 230, 230),
                 height: 1,
                 thickness: 1.5,
         ),
         SizedBox(height:6),
         Container(
+          color:isPinned?transColorMap['${widget.article.category}']:Colors.white,
           // height:190,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,15 +149,20 @@ class _NewsCardState extends State<NewsCard> {
                           ),
                         ),
                       ),
+                      widget.email != 'Not logged in' && widget.pinIconFlag == true ? InkWell(
+                        onTap: () async {
+                          await onIconTap(widget.article);
+                          },
+                        child: Icon(Icons.push_pin_outlined,color: isPinned?darkerColorMap['${widget.article.category}']:Color.fromARGB(255, 98, 90, 90),)):SizedBox(width:2),
                       Padding(
-                        padding: EdgeInsets.only(right: 7.0), 
+                        padding: EdgeInsets.only(right: 10.0), 
                         child:
                           Align(
                             alignment: Alignment.topRight,
                             child: 
                             Row(
                               children: [
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     launchURL('${widget.article.url}'); // Replace with your website URL
                                   },
@@ -146,10 +171,10 @@ class _NewsCardState extends State<NewsCard> {
                                     style:TextStyle(fontFamily: 'OpenSans',fontSize: 10, color:Color(0xFF5445FD)),
                                   ),
                                 ),
-                                SizedBox(width: 3,),
+                                SizedBox(width: 6,),                                  
                                 InkWell(
                                   onTap: (){
-                                    readText(widget.article.description);
+                                    readText(widget.article.description, widget.selectedLanguage);
                                   },
                                   child:isReading?Icon(Icons.stop,size: 18,color: Color.fromARGB(255, 239, 68, 21)):Icon(Icons.volume_up,size: 18,color: Color.fromARGB(255, 127, 125, 121),),
                                 ),

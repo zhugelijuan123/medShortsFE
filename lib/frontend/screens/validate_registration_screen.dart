@@ -42,7 +42,7 @@ class _ValidateRegistrationScreenState extends State<ValidateRegistrationScreen>
                         context,
                         MaterialPageRoute(
                           builder: (context) =>  VerifyMfaScreen(),
-                          settings: RouteSettings(arguments: validateString)),
+                          settings: RouteSettings(arguments: {'validate':validateString,'email':userEmail})),
       );
     }
   }
@@ -50,6 +50,7 @@ class _ValidateRegistrationScreenState extends State<ValidateRegistrationScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         title: const Text('Sign Up'),
       ),
@@ -59,13 +60,13 @@ class _ValidateRegistrationScreenState extends State<ValidateRegistrationScreen>
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height:150),
+            SizedBox(height:90),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
                   child: Text('Create your account', 
-                  style:TextStyle(fontSize: 36,fontFamily: 'Ubuntu',fontWeight: FontWeight.bold,) ,),
+                  style:TextStyle(fontSize: 30,fontFamily: 'Ubuntu',fontWeight: FontWeight.bold,) ,),
                 ),
               ],
             ),
@@ -75,11 +76,11 @@ class _ValidateRegistrationScreenState extends State<ValidateRegistrationScreen>
               children: [
                 Flexible(
                   child: Text('Let\'s get started with your immersiven journey', 
-                  style:TextStyle(fontSize: 19,fontFamily: 'Arial',color: Colors.grey,) ,),
+                  style:TextStyle(fontSize: 16,fontFamily: 'Arial',color: Colors.grey,) ,),
                 ),
               ],
             ),
-            const SizedBox(height:60),
+            const SizedBox(height:40),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Email',

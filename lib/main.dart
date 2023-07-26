@@ -9,7 +9,9 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'backend/services/signup.dart';
+import 'backend/services/profile_service.dart';
 import 'frontend/screens/podcast.dart';
+
 
 class MyHttpOverrides extends HttpOverrides{
   @override
@@ -38,6 +40,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
+  String email = 'Not logged in';
 
   @override
   void initState(){
@@ -48,8 +51,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> checkLoginStatus() async {
     final storage = const FlutterSecureStorage();
     var accessToken = await storage.read(key:'token');
-    // print('access token in main.dart');
-    // print(accessToken);
+    
     if (accessToken != null && accessToken.isNotEmpty){
       String userInfoResponse = await userInfo(accessToken);
       if (userInfoResponse == ''){
@@ -59,6 +61,8 @@ class _MyAppState extends State<MyApp> {
       } else{
         setState(() {
         isLoggedIn = true;
+        email = userInfoResponse;
+        print(email);
       });
       }
       
@@ -75,7 +79,8 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         ),
-        home: isLoggedIn?NewsFeedScreen():MyHomePage(),
+        home: 
+        isLoggedIn?NewsFeedScreen(email:email, selectedLanguage: 'en-US',):SwipeCombination(),
       ),
     );
   }

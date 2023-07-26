@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'validate_registration_screen.dart';
 import 'signin_screen.dart';
 import 'news_feed_screen.dart';
+import '../../constants/constants.dart';
+
 
 class SwipeCombination extends StatefulWidget {
   @override
@@ -43,15 +45,17 @@ class _SwipeCombinationState extends State<SwipeCombination> {
       const Row(
         children: [
           SizedBox(width: 80), // Add space using SizedBox
-          Text(
-            'Rapid insights into the medical world',
-            style: TextStyle(
-              fontSize: 20, // Adjust the font size
-              color: Colors.black, // Set the text color
-              letterSpacing: 1, // Set the letter spacing
-              fontFamily: 'Caveat',
-              fontWeight: FontWeight.bold,
-              // Add more style properties as needed
+          Flexible(
+            child: Text(
+              'Rapid insights into the medical world',
+              style: TextStyle(
+                fontSize: 20, // Adjust the font size
+                color: Colors.black, // Set the text color
+                letterSpacing: 1, // Set the letter spacing
+                fontFamily: 'Caveat',
+                fontWeight: FontWeight.bold,
+                // Add more style properties as needed
+              ),
             ),
           ),
         ],
@@ -335,6 +339,9 @@ class _SwipeCombinationState extends State<SwipeCombination> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: null,
       body: Column(
@@ -387,7 +394,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
               ),
             ],
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(height: 20,),
           Row(children: [
             SizedBox(width:28),
             InkWell(
@@ -409,7 +416,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
               ),
             )
           ],),
-          const SizedBox(height: 18,),
+          const SizedBox(height: 10,),
           Row(children: [
             SizedBox(width:28),
             InkWell(
@@ -417,8 +424,32 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 // Navigate to another page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  Placeholder()),
+                  MaterialPageRoute(builder: (context) => NewsFeedScreen(email:'Not logged in', selectedLanguage:'en-US',)),
                 );
+              },
+              child: const Text(
+                'Continue without account',
+                style: TextStyle(
+                  color: Color(0xFF414BB2), 
+                  fontWeight: FontWeight.bold,  
+                  fontSize: 18,  
+                  // Set the text color to blue
+                ),
+              ),
+            )
+          ],),
+          const SizedBox(height: 18,),
+          Row(children: [
+            SizedBox(width:28),
+            InkWell(
+              onTap: () {
+                // Navigate to another page
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) =>  Placeholder()),
+                // );
+                launchURL('https://www.freeprivacypolicy.com/live/884592be-6e63-4312-8fc6-35c02dc8068b'); // Replace with your website URL
+
               },
               child: const Text(
                 'Privacy',
