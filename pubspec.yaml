@@ -32,11 +32,8 @@ dependencies:
     sdk: flutter
     
   url_launcher: ^6.0.9
-<<<<<<< HEAD
   provider: ^6.0.5
-=======
   flutter_launcher_icons: ^0.13.1
->>>>>>> 119ed6408ca3866f21f32788ecb7f63be6ec06d4
 
   # google_fonts: ^5.1.0
 
