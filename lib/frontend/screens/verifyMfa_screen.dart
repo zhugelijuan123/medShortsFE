@@ -17,6 +17,7 @@ class _VerifyMfaScreenState extends State<VerifyMfaScreen> {
   String otpValidateToken = '';
   String? errorHint = null;
   String validateString = '';
+  String userEmail = '';
 
   Future<void> verifyMfaAsync(validateString) async {
     String otpCode = otpCodeList.join();
@@ -29,7 +30,7 @@ class _VerifyMfaScreenState extends State<VerifyMfaScreen> {
         context,
         MaterialPageRoute(
           builder: (context) =>  RegisterScreen(),
-          settings: RouteSettings(arguments: otpValidateToken)),
+          settings: RouteSettings(arguments: {'validate':otpValidateToken, 'email':userEmail})),
       );
     }
   }
@@ -58,7 +59,10 @@ class _VerifyMfaScreenState extends State<VerifyMfaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String validateString = ModalRoute.of(context)?.settings.arguments as String;
+    final Map<String, dynamic> gotArguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final String validateString = gotArguments?['validate']??'';
+    userEmail = gotArguments?['email']??'';
+
     List<Widget> otpFields = List.generate(
       6,
       (index) => SizedBox(
@@ -89,7 +93,7 @@ class _VerifyMfaScreenState extends State<VerifyMfaScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height:150),
+            SizedBox(height:90),
             Text(
               'Enter your security code',
               style: TextStyle(fontSize: 30, fontFamily: 'Arial',),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'news_feed_screen.dart';
 import '../../backend/services/signup.dart';
+import '../../backend/services/profile_service.dart';
 import 'verifyMfa_screen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -44,18 +45,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> registerAsync(otpValidateToken, password) async {
     String registerToken = await register(otpValidateToken, password);
     accessToken = await middleWare(registerToken);
+    await addProfile(accessToken);
 
     if (accessToken == ''){
-      errorHint = 'Register failed!';
+      errorHint = 'error hint equal to null!';
     }
     else{
       final storage = const FlutterSecureStorage();
     // to save token in local storage
       await storage.write(key: 'token', value: accessToken);
+
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>  NewsFeedScreen(),
+          builder: (context) =>  NewsFeedScreen(email:userEmail, selectedLanguage: 'en-US',),
           settings: RouteSettings(arguments: accessToken)
           ),
       );
@@ -64,7 +67,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String otpValidateToken = ModalRoute.of(context)?.settings.arguments as String;
+    final Map<String, dynamic> gotArguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final String otpValidateToken = gotArguments?['validate']??'';
+    userEmail = gotArguments?['email']??'';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
@@ -75,9 +81,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height:150),
+            SizedBox(height:90),
             Text('Please set your password',
-              style: TextStyle(fontSize: 30, fontFamily: 'Arial',),),
+              style: TextStyle(fontSize: 28, fontFamily: 'Arial',),),
             SizedBox(height:20),
             TextField(
               decoration: InputDecoration(

@@ -3,8 +3,11 @@ import 'package:medpulse/frontend/widgets/news_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'introduction_screen.dart';
+import 'saved_news.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../constants/constants.dart';
+import 'audio_language.dart';
+import 'profile.dart';
 
 List<NewsArticle> extractArticle(String jsonString) {
   List<NewsArticle> articleList = [];
@@ -19,6 +22,11 @@ List<NewsArticle> extractArticle(String jsonString) {
 }
 
 class NewsFeedScreen extends StatefulWidget {
+  final String email;
+  String selectedLanguage;
+
+  NewsFeedScreen({required this.email, required this.selectedLanguage});
+
   @override
   _NewsFeedScreenState createState() => _NewsFeedScreenState();
 }
@@ -32,6 +40,8 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   void initState(){
     super.initState();
     // checkLoginStatus();
+    print('news feed page');
+    print(widget.email);
     fetchData();
   }
 
@@ -43,11 +53,27 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   Future<dynamic> fetchData() async {
     final storage = const FlutterSecureStorage();
     token = await storage.read(key:'token');
+    
+    print(token);
+
+    String url = 'http://localhost:8080/fetchnews/'; //local server
+    // url = 'https://medshorts-mc6fph6kbq-uc.a.run.app/fetchnews/'; //remote server
+
     Map<String, String> headers = {
-      'Authorization':'Bearer $token',
+      'Authorization':'Bearer no account',
     };
 
-    final response = await http.get(Uri.parse('http://localhost:8080/fetchnews/'), headers: headers);
+    if(widget.email != 'Not logged in'){
+      headers = {
+      'Authorization':'Bearer $token',
+      };
+    }
+
+    final response = await http.get(Uri.parse(url), headers: headers);
+
+
+    // final response = await http.get(Uri.parse(''), headers: headers);
+    print(response.statusCode);
     if (response.statusCode == 200){
       final data = response.body;
       setState(() {
@@ -84,6 +110,106 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       }
     }
       return newsArticles;
+  }
+
+  Widget buildDrawer(){
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: 
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>  SwipeCombination(),
+                    ),
+                  );
+              },
+              child: Text('\n\nClick to log in', 
+                style: TextStyle(color: Colors.white, fontSize: 20,decoration:TextDecoration.underline, decorationColor: Colors.white),),
+            ),
+            decoration: BoxDecoration(color: Color(0xFF414BB2)),
+          ),
+          ListTile(
+            title: Text('Audio Language'),
+            
+            onTap: () {
+              navigateToAudioScreen();
+            },
+          ),
+        ],
+      )
+    );
+  }
+
+  void navigateToAudioScreen() async {
+    final updatedLanguage  = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  AudioLanguageScreen(selectedLanguage: widget.selectedLanguage),
+              ),
+            );
+    
+    if (updatedLanguage != null){
+      setState(() {
+        widget.selectedLanguage = updatedLanguage;
+      });
+    }
+
+  }
+
+  Widget buildLoggedinDrawer(){
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+          child: Text('\nWelcome! \n ${widget.email}', style: TextStyle(color: Colors.white, fontSize: 20),),
+          decoration: BoxDecoration(color: Color(0xFF414BB2)),
+          ),
+          ListTile(
+            title: Text('Account'),
+            onTap: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  ProfileScreen(email:widget.email),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: Text('Saved News'),
+            onTap: (){
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SavedNewsPage(selectedLanguage: widget.selectedLanguage,acceeToken: token,),),);
+            },
+            
+          ),
+          ListTile(
+            title: Text('Audio Language'),
+            
+            onTap: () {
+              navigateToAudioScreen();
+            },
+          ),
+          ListTile(
+            title: Text('Log out'),
+            onTap: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  SwipeCombination(),
+                ),
+              );
+            },
+          ),
+        ],
+      )
+    );
   }
 
   
@@ -152,61 +278,46 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
     }
     else{
         return Scaffold(
-      appBar: null,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBar(title: Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom:15.0,),
+            child: RichText(
+                                  text: const TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '\nMed',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Arial',
+                                          color:Colors.black,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: 'Shorts',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          fontFamily: 'Arial',
+                                          color: Color(0xFF2CB197),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+          ),
+        ),
+        centerTitle: true,
+        ), ),
+      drawer: widget.email == 'Not logged in'?buildDrawer():buildLoggedinDrawer(),
       body: Column(
                 children: [
-                  SizedBox(height: 50,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Baseline(
-                            baselineType: TextBaseline.alphabetic,
-                            baseline: 6.0,
-                            child: RichText(
-                              text: const TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: '\nMed',
-                                    style: TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Arial',
-                                      color:Colors.black,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: 'Shorts',
-                                    style: TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic,
-                                      fontFamily: 'Arial',
-                                      color: Color(0xFF2CB197),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10.0), 
-                        child:
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Icon(
-                                    Icons.account_circle,
-                                    size: 56,
-                                    color: Color(0xFF524F4F),
-                                  ),
-                          ), 
-                      ),
-                    ],
-                  ), 
-                  SizedBox(height: 10,),
+                  // SizedBox(height: 50,),
+                  // SizedBox(height: 10,),
                   Divider(
                     color: Color(0xFFE6E6E6),
                     height: 1,
@@ -312,7 +423,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: NewsCard(article: getSelectedNewsArticles()[index]),
+                            child: NewsCard(article: getSelectedNewsArticles()[index], selectedLanguage: widget.selectedLanguage, accessToken:token, email: widget.email,pinIconFlag:true),
                           );
                       },
                     ),

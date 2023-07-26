@@ -57,7 +57,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 if (isLoginInfoVerified(userEmail, userPassword)){
                   Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  NewsFeedScreen()),
+                        MaterialPageRoute(builder: (context) =>  NewsFeedScreen(email:'Not logged in', selectedLanguage: 'en-US',)),
                       );
                   }
                 else {

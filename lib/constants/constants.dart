@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final List<String> imagePaths = [
     'assets/images/medication.png',
@@ -36,3 +37,39 @@ final List<String> imagePaths = [
     'Research':Color.fromARGB(255, 250, 232, 227),
     'Environment':Color.fromARGB(255, 205, 244, 165),
   };
+
+
+  final Map<String, Color> darkerColorMap = {
+    'Medication': Color.fromARGB(255, 223, 169, 88),
+    'Mental Health': Color.fromARGB(210, 107, 136, 229),
+    'Nutrition': Color.fromARGB(255, 230, 105, 105),
+    'Tech': Color.fromARGB(255, 120, 215, 234),
+    'Research':Color.fromARGB(255, 232, 127, 98),
+    'Environment':Color.fromARGB(255, 152, 216, 87),
+  };
+
+  final Map<String, Color> transColorMap = {
+    'Medication': Color.fromARGB(255, 244, 219, 181).withOpacity(0.5),
+    'Mental Health': Color.fromARGB(210, 216, 224, 251).withOpacity(0.5),
+    'Nutrition': Color.fromARGB(255, 249, 231, 231).withOpacity(0.5),
+    'Tech': Color.fromARGB(255, 192, 229, 236).withOpacity(0.5),
+    'Research':Color.fromARGB(255, 250, 232, 227).withOpacity(0.5),
+    'Environment':Color.fromARGB(255, 205, 244, 165).withOpacity(0.5),
+  };
+
+
+
+  void launchURL(String url) async {
+  try {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  } catch (e) {
+    // Handle the error gracefully
+    print('Error launching URL: $e');
+    // Continue with your application flow
+    // ...
+  }
+}
