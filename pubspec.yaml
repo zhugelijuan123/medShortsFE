@@ -27,12 +27,16 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
-dependencies:
+dependencies: 
   flutter:
     sdk: flutter
     
   url_launcher: ^6.0.9
+<<<<<<< HEAD
   provider: ^6.0.5
+=======
+  flutter_launcher_icons: ^0.13.1
+>>>>>>> 119ed6408ca3866f21f32788ecb7f63be6ec06d4
 
   # google_fonts: ^5.1.0
 
@@ -47,6 +51,7 @@ dependencies:
   just_audio: ^0.9.34
 
 dev_dependencies:
+  flutter_native_splash:
   flutter_test:
     sdk: flutter
 
@@ -63,6 +68,23 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: assetsShriya/AppPill.png
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: assetsShriya/AppPill.png
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: assetsShriya/AppPill.png
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: assetsShriya/AppPill.png
 flutter:
 
   fonts:
