@@ -148,7 +148,7 @@ NewsArticle convertToArticle(Map<String, dynamic> jsonData) {
 
 
 
-Future<dynamic> getProfile(acceeToken) async {
+Future<List<NewsArticle>> getProfile(acceeToken) async {
   var headers = {
   'Accept-Encoding': 'gzip, deflate, br',
   'Content-Type': 'application/json',

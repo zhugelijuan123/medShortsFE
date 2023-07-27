@@ -12,8 +12,6 @@ class AudioLanguageScreen extends StatefulWidget{
 }
 
 class _AudioLanguageScreenState extends State<AudioLanguageScreen> {
-  String tmpselectedLanguage = 'en-US';
-
   
   @override
   Widget build(BuildContext context){
@@ -30,7 +28,7 @@ class _AudioLanguageScreenState extends State<AudioLanguageScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(width: 20,),
-                Flexible(child: Text('\n\n\n  Please reset your prefered audio language here!', style: TextStyle(fontSize: 20),)),
+                Flexible(child: Text('\n\n\n  Choose your prefered audio language and go back to news page!', style: TextStyle(fontSize: 20),)),
               ],
             ),
             SizedBox(height: 20,),
@@ -38,7 +36,7 @@ class _AudioLanguageScreenState extends State<AudioLanguageScreen> {
               value: widget.selectedLanguage,
               onChanged: (newValue){
                 setState(() {
-                  tmpselectedLanguage = newValue!;
+                  widget.selectedLanguage = newValue!;
                 });
               },
               items:[
@@ -53,11 +51,11 @@ class _AudioLanguageScreenState extends State<AudioLanguageScreen> {
                   child: Text('French',style: TextStyle(fontSize: 20))),
                 ]),
             SizedBox(height: 10,),
-            ElevatedButton(
-              onPressed: () {
-                widget.selectedLanguage = tmpselectedLanguage;
-              } ,
-              child:Text('Save your choice'))
+            // ElevatedButton(
+            //   onPressed: () {
+            //     widget.selectedLanguage = tmpselectedLanguage;
+            //   } ,
+            //   child:Text('Save your choice'))
           ]),
     ));
   }
