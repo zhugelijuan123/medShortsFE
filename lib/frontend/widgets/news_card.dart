@@ -46,8 +46,9 @@ class NewsCard extends StatefulWidget {
   final String accessToken;
   final String email;
   final bool pinIconFlag;
+  bool isPinnedFlag;
 
-  const NewsCard({required this.article, required this.selectedLanguage, required this.accessToken, required this.email, required this.pinIconFlag});
+  NewsCard({required this.article, required this.selectedLanguage, required this.accessToken, required this.email, required this.pinIconFlag, required this.isPinnedFlag});
 
   
   
@@ -60,8 +61,6 @@ class _NewsCardState extends State<NewsCard> {
   FlutterTts flutterTts = FlutterTts();
 
   bool isReading = false;
-
-  bool isPinned = false;
 
   void readText(String text, String languageCode) async {
     if (isReading){
@@ -78,10 +77,14 @@ class _NewsCardState extends State<NewsCard> {
   
   Future<void> onIconTap(newArticle) async{
     setState(() {
-      isPinned = !isPinned;
+      widget.isPinnedFlag = !widget.isPinnedFlag;
     });
     List<NewsArticle> newsList = await getProfile(widget.accessToken);
-    newsList.add(newArticle);
+    if (widget.isPinnedFlag){
+        newsList.add(newArticle);
+    } else {
+      newsList.removeWhere((element) => newArticle.title == element.title);
+    }
     print(newsList);
     updateProfile(widget.accessToken, newsList);
   }
@@ -92,13 +95,13 @@ class _NewsCardState extends State<NewsCard> {
     return Column(
       children: [
         Divider(
-                color:isPinned?colorMap['${widget.article.category}']:Color.fromARGB(225, 230, 230, 230),
+                color:widget.isPinnedFlag?colorMap['${widget.article.category}']:Color.fromARGB(225, 230, 230, 230),
                 height: 1,
                 thickness: 1.5,
         ),
         SizedBox(height:6),
         Container(
-          color:isPinned?transColorMap['${widget.article.category}']:Colors.white,
+          color:widget.isPinnedFlag?transColorMap['${widget.article.category}']:Colors.white,
           // height:190,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,7 +156,7 @@ class _NewsCardState extends State<NewsCard> {
                         onTap: () async {
                           await onIconTap(widget.article);
                           },
-                        child: Icon(Icons.push_pin_outlined,color: isPinned?darkerColorMap['${widget.article.category}']:Color.fromARGB(255, 98, 90, 90),)):SizedBox(width:2),
+                        child: Icon(Icons.push_pin_outlined,color: widget.isPinnedFlag?darkerColorMap['${widget.article.category}']:Color.fromARGB(255, 98, 90, 90),)):SizedBox(width:2),
                       Padding(
                         padding: EdgeInsets.only(right: 10.0), 
                         child:

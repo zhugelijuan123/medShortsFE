@@ -71,7 +71,7 @@ class _SavedNewsPageState extends State<SavedNewsPage> {
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: NewsCard(article: savedNews[index], selectedLanguage: widget.selectedLanguage, accessToken: widget.acceeToken, email: 'Logged in',pinIconFlag:false),
+                            child: NewsCard(article: savedNews[index], selectedLanguage: widget.selectedLanguage, accessToken: widget.acceeToken, email: 'Logged in',pinIconFlag:false, isPinnedFlag: false,),
                           );
                       },
                     ),

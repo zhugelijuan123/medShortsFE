@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../constants/constants.dart';
 import 'audio_language.dart';
 import 'profile.dart';
+import '../../backend/services/profile_service.dart';
 
 List<NewsArticle> extractArticle(String jsonString) {
   List<NewsArticle> articleList = [];
@@ -40,24 +41,34 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   void initState(){
     super.initState();
     // checkLoginStatus();
-    print('news feed page');
-    print(widget.email);
+    
     fetchData();
   }
 
   List<String> selectedCategories = ['Medication'];
   late dynamic jsonResponse = {};
   final PageController _pageController = PageController();
+  List<NewsArticle> pinnedNewsList = [];
+  List<bool> newsPinnedFlagList = [];
 
+  Future<void> fetchPinnedNews() async{
+    pinnedNewsList = await getProfile(token);
+  }
 
   Future<dynamic> fetchData() async {
     final storage = const FlutterSecureStorage();
     token = await storage.read(key:'token');
-    
-    print(token);
 
-    String url = 'http://localhost:8080/fetchnews/'; //local server
-    // url = 'https://medshorts-mc6fph6kbq-uc.a.run.app/fetchnews/'; //remote server
+    if (token == null && widget.email != 'Not logged in'){
+      print('news feed page: token is null but user logged in');
+    }
+
+    if (token == null){
+      token = '';
+    }
+
+    // String url = 'http://localhost:8080/fetchnews/'; //local server
+    String url = 'https://medshorts-mc6fph6kbq-uc.a.run.app/fetchnews/'; //remote server
 
     Map<String, String> headers = {
       'Authorization':'Bearer no account',
@@ -67,19 +78,17 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       headers = {
       'Authorization':'Bearer $token',
       };
+      pinnedNewsList = await getProfile(token);
     }
 
     final response = await http.get(Uri.parse(url), headers: headers);
 
-
     // final response = await http.get(Uri.parse(''), headers: headers);
-    print(response.statusCode);
     if (response.statusCode == 200){
       final data = response.body;
       setState(() {
         jsonResponse = json.decode(data);
       });
-      print(jsonResponse);
       return jsonResponse;
     } else{
       print('Error: ${response.statusCode}');
@@ -98,19 +107,57 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       for (int idx = 0;idx<js.length;idx++){
         dynamic jsonObject = js[idx];
         if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
-          newsArticles.add(NewsArticle(
+          NewsArticle articleItem = NewsArticle(
             title: jsonObject['title'], 
             description: jsonObject['summary_new'], 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['publishedTimeGap'], 
             category: selectedCategories[0], 
-            url: jsonObject['url']));
+            url: jsonObject['url']);
+          newsArticles.add(articleItem);
+          if (pinnedNewsList.any((element) => element.title == articleItem.title)){
+            newsPinnedFlagList.add(true);
+          }
+          else{
+            newsPinnedFlagList.add(false);
+          }
         }
       }
     }
       return newsArticles;
   }
+
+  List<bool> getPinnedFlag() {
+    List<NewsArticle> newsArticles = [];
+    List<bool> tmpNewsPinnedFlagList = [];
+    
+    if (jsonResponse.containsKey(selectedCategories[0])){
+      dynamic js = jsonResponse[selectedCategories[0]];
+      for (int idx = 0;idx<js.length;idx++){
+        dynamic jsonObject = js[idx];
+        if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
+          NewsArticle articleItem = NewsArticle(
+            title: jsonObject['title'], 
+            description: jsonObject['summary_new'], 
+            image: jsonObject['imageUrl'], 
+            author: 'lijuan', 
+            publishdTime: jsonObject['publishedTimeGap'], 
+            category: selectedCategories[0], 
+            url: jsonObject['url']);
+          newsArticles.add(articleItem);
+          if (pinnedNewsList.any((element) => element.title == articleItem.title)){
+            tmpNewsPinnedFlagList.add(true);
+          }
+          else{
+            tmpNewsPinnedFlagList.add(false);
+          }
+        }
+      }
+    }
+      return tmpNewsPinnedFlagList;
+  }
+
 
   Widget buildDrawer(){
     return Drawer(
@@ -198,7 +245,9 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           ),
           ListTile(
             title: Text('Log out'),
-            onTap: () {
+            onTap: () async {
+              final storage = const FlutterSecureStorage();
+              await storage.delete(key: 'token');
               Navigator.push(
               context,
               MaterialPageRoute(
@@ -343,7 +392,8 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                         
                                 padding: EdgeInsets.all(1.5),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+
                                     setState(() {
                                       //Multiple choices
                                       // if (selectedCategories.contains(category)) {
@@ -354,6 +404,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                                       //Only one choices
                                       selectedCategories = [category];
                                     });
+                                    await fetchPinnedNews();
                                   },
                                   child: Column(
                                     children: [
@@ -423,7 +474,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: NewsCard(article: getSelectedNewsArticles()[index], selectedLanguage: widget.selectedLanguage, accessToken:token, email: widget.email,pinIconFlag:true),
+                            child: NewsCard(article: getSelectedNewsArticles()[index], selectedLanguage: widget.selectedLanguage, accessToken:token, email: widget.email,pinIconFlag:true, isPinnedFlag: getPinnedFlag()[index],),
                           );
                       },
                     ),
