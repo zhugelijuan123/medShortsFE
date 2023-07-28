@@ -79,15 +79,22 @@ class _SigninScreenState extends State<SigninScreen> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Implement signin logic here
                 if (isLoginInfoVerified(userEmail, userPassword)) {
                   
-                  loginAsync(userEmail, userPassword);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => VerifyMfaSignIn()),
-                  // );
+                  await loginAsync(userEmail, userPassword);
+                  if (errorHint != null){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Log in information is wrong!",
+                            style: TextStyle(color:Colors.red, fontSize: 20),),
+                          duration: Duration(seconds: 3),
+                          backgroundColor: Colors.white,
+                          behavior: SnackBarBehavior.floating,),);
+                      errorHint = null;
+                    }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

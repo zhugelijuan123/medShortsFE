@@ -49,12 +49,12 @@ final List<String> imagePaths = [
   };
 
   final Map<String, Color> transColorMap = {
-    'Medication': Color.fromARGB(255, 244, 219, 181).withOpacity(0.5),
+    'Medication': Color.fromARGB(255, 244, 226, 198).withOpacity(0.5),
     'Mental Health': Color.fromARGB(210, 216, 224, 251).withOpacity(0.5),
     'Nutrition': Color.fromARGB(255, 249, 231, 231).withOpacity(0.5),
-    'Tech': Color.fromARGB(255, 192, 229, 236).withOpacity(0.5),
+    'Tech': Color.fromARGB(255, 214, 240, 245).withOpacity(0.5),
     'Research':Color.fromARGB(255, 250, 232, 227).withOpacity(0.5),
-    'Environment':Color.fromARGB(255, 205, 244, 165).withOpacity(0.5),
+    'Environment':Color.fromARGB(255, 223, 242, 205).withOpacity(0.5),
   };
 
 
