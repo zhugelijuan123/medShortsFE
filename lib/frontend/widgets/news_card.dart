@@ -74,6 +74,10 @@ class _NewsCardState extends State<NewsCard> {
       isReading = !isReading;
     });
   }
+
+  String getTimeGap(String pubDateString){
+    return timeSince(pubDateString);
+  }
   
   Future<void> onIconTap(newArticle) async{
     setState(() {
@@ -145,7 +149,7 @@ class _NewsCardState extends State<NewsCard> {
                             baseline: 6.0,
                             child: 
                             Text(
-                              '${widget.article.publishdTime}',
+                              getTimeGap(widget.article.publishdTime),
                               style:TextStyle(fontFamily: 'NotoSans',fontSize: 10),
                             ),
                           ),

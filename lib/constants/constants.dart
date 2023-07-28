@@ -73,3 +73,44 @@ final List<String> imagePaths = [
     // ...
   }
 }
+
+
+String timeSince(String timeStampString){
+  if (timeStampString == null || timeStampString.isEmpty){
+    return timeStampString;
+  }
+  try {
+    DateTime timeStamp = DateTime.parse(timeStampString);
+    final currentTime = DateTime.now().toUtc();
+    final secondsPast = currentTime.difference(timeStamp).inSeconds;
+
+    if(secondsPast < 0){
+          print(secondsPast);
+          return timeStampString;
+    }
+    if(secondsPast < 60){
+        return '$secondsPast seconds ago';
+    }
+    if(secondsPast < 3600){
+        return '${(secondsPast ~/ 60)} mins ago';
+    }
+    if(secondsPast <= 86400){
+        return '${(secondsPast ~/ 3600)} hours ago';
+    }
+    if(secondsPast <= 2628000){
+        return '${(secondsPast ~/ 86400)} days ago';
+    }
+    if(secondsPast <= 31536000){
+        return '${(secondsPast ~/ 2628000)} months ago';
+    }
+    if(secondsPast > 31536000){
+        return '${(secondsPast ~/ 31536000)} years ago';
+    }
+    return timeStampString;
+  } catch(e){
+    return timeStampString;
+  }
+
+  
+
+}

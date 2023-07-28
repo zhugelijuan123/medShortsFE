@@ -10,18 +10,6 @@ import 'audio_language.dart';
 import 'profile.dart';
 import '../../backend/services/profile_service.dart';
 
-List<NewsArticle> extractArticle(String jsonString) {
-  List<NewsArticle> articleList = [];
-  dynamic jsonData = json.decode(jsonString);
-
-  articleList = jsonData.map((jsonObject){
-    return NewsArticle(title: jsonObject['title'], description: jsonObject['description'], image: '', author: 'assets/images/mountain.jpeg', publishdTime: '23 mins', category: 'Medication', url: jsonObject['url']);
-  }).toList();
-
-  return articleList;
-
-}
-
 class NewsFeedScreen extends StatefulWidget {
   final String email;
   String selectedLanguage;
@@ -52,7 +40,9 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   List<bool> newsPinnedFlagList = [];
 
   Future<void> fetchPinnedNews() async{
-    pinnedNewsList = await getProfile(token);
+    if(widget.email != 'Not logged in'){
+      pinnedNewsList = await getProfile(token);
+    }
   }
 
   Future<dynamic> fetchData() async {
@@ -105,13 +95,13 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       dynamic js = jsonResponse[selectedCategories[0]];
       for (int idx = 0;idx<js.length;idx++){
         dynamic jsonObject = js[idx];
-        if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
+        if (jsonObject['summary_new'] != null && jsonObject['pubDate'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['pubDate'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
           NewsArticle articleItem = NewsArticle(
             title: jsonObject['title'].replaceAll('"',''), 
             description: jsonObject['summary_new'].replaceAll('"',''), 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
-            publishdTime: jsonObject['publishedTimeGap'], 
+            publishdTime: jsonObject['pubDate'], 
             category: selectedCategories[0], 
             url: jsonObject['url']);
           newsArticles.add(articleItem);
@@ -134,13 +124,13 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       dynamic js = jsonResponse[selectedCategories[0]];
       for (int idx = 0;idx<js.length;idx++){
         dynamic jsonObject = js[idx];
-        if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
+        if (jsonObject['summary_new'] != null && jsonObject['pubDate'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['pubDate'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
           NewsArticle articleItem = NewsArticle(
             title: jsonObject['title'].replaceAll('"',''), 
             description: jsonObject['summary_new'].replaceAll('"',''), 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
-            publishdTime: jsonObject['publishedTimeGap'], 
+            publishdTime: jsonObject['pubDate'], 
             category: selectedCategories[0], 
             url: jsonObject['url']);
           if (pinnedNewsList.any((element) => element.title == articleItem.title)){
