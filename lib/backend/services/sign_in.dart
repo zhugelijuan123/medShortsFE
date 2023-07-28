@@ -29,7 +29,9 @@ Future<String> login(userEmail, userPassword) async {
     print(loginResponse);
     return loginResponse;
   } else {
+    print('log in with email and password failed');
     print(response.reasonPhrase);
+    print(response.statusCode);
 
     return '';
   }
@@ -61,7 +63,9 @@ if (response.statusCode == 200) {
   return loginResponse;
 }
 else {
+  print('log in with email and password sendMFA failed');
   print(response.reasonPhrase);
+  print(response.statusCode);
   return '';
 }
 
@@ -147,7 +151,9 @@ Future<String> saveMfaCookie(OTP_VALIDATED_TOKEN) async {
     return cookieResponse;
   }
   else {
+    print('saveMfaCookie of login failed');
     print(response.reasonPhrase);
+    print(response.statusCode);
     return '';
   }
 
@@ -173,7 +179,9 @@ Future<String> redirectUserToken(OTP_VALIDATED_TOKEN) async {
     return loginRedirectToken;
   }
   else {
+    print('redirectUserToken falied');
     print(response.reasonPhrase);
+    print(response.statusCode);
     return '';
   }
 
