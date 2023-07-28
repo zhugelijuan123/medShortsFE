@@ -24,20 +24,22 @@ class _SigninScreenState extends State<SigninScreen> {
 
   Future<void> loginAsync(userEmail, userPassword) async {
     String loginString = await login(userEmail, userPassword);
-    Map<String, dynamic> jsonData = jsonDecode(loginString);
-    String loginOtpToken = jsonData['tokenDto']['token'];
-
-    String validateString = await sendMfa(userEmail, loginOtpToken);
-    
-    if (validateString == '' || loginString == '') {
-      errorHint = null;
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => VerifyMfaSignIn(),
-            settings: RouteSettings(arguments:{'validate': validateString, 'loginString':loginString, 'email':userEmail})),
-      );
+    if (loginString == ''){
+      errorHint = 'wrong login info';
+    } else{
+      Map<String, dynamic> jsonData = jsonDecode(loginString);
+      String loginOtpToken = jsonData['tokenDto']['token'];
+      String validateString = await sendMfa(userEmail, loginOtpToken);
+      if (validateString == '' || loginString == '') {
+        errorHint = 'wrong login info';
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => VerifyMfaSignIn(),
+              settings: RouteSettings(arguments:{'validate': validateString, 'loginString':loginString, 'email':userEmail})),
+        );
+      }
     }
   }
 
