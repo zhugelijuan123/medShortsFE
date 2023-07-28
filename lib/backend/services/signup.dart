@@ -33,14 +33,15 @@ Future<String> validateregistration(userEmail) async {
 Future<String> verifyMfa(otpCode, jsonString) async {
   var request = http.Request('POST', Uri.parse('https://web.stg.platform.caremarket.ai/api/xpocareIdentityServices/xpocare/v1/consumer/verifyMfa'));
   Map<String, dynamic> jsonData = jsonDecode(jsonString);
-
+  print(otpCode);
+  print(jsonString);
   List<String> keys = ['token','pingRiskId','pingUserId','pingDeviceId'];
 
   Map<String, dynamic> requestJson = Map.fromEntries(
       keys.where((key) => jsonData.containsKey(key)).map((key) => MapEntry(key, jsonData[key])));
 
   requestJson["otp"] = otpCode;
-  
+  print(requestJson);
   request.body = json.encode(requestJson);
   request.headers.addAll(headers);
 
@@ -96,8 +97,8 @@ Future<dynamic> middleWare(auth_session) async {
   request.body = json.encode({
     "auth_session": auth_session
   });
-  print('auth session:');
-  print(auth_session);
+  // print('auth session:');
+  // print(auth_session);
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();

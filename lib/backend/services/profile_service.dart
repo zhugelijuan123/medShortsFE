@@ -121,10 +121,12 @@ Future<dynamic> updateProfile(accessToken, objectList) async {
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
+    await response.stream.bytesToString();
   }
   else {
+    print('update profile failed');
     print(response.reasonPhrase);
+    print(response.statusCode);
   }
 
 }
@@ -132,8 +134,6 @@ Future<dynamic> updateProfile(accessToken, objectList) async {
 
 NewsArticle convertToArticle(Map<String, dynamic> jsonData) {
   // Convert each item in the list to GraphQL format
-  // NewsArticle tmpArticle = NewsArticle(title:  jsonData["title"].toString(), description:  jsonData["description"].toString(), image:  jsonData["image"].toString(), author: jsonData["author"].toString(), publishdTime:  jsonData["publishdTime"].toString(), category: jsonData['category'].toString(), url: jsonData['url'].toString());
-  // print(tmpArticle);
   NewsArticle tmpArticle = NewsArticle(
             title: 'title', 
             description: 'summary_new', 
@@ -175,12 +175,12 @@ Future<List<NewsArticle>> getProfile(acceeToken) async {
       jsonData = newsList[idx];
       articlesList.add(NewsArticle(title:  jsonData["title"].toString(), description:  jsonData["description"].toString(), image:  jsonData["image"].toString(), author: jsonData["author"].toString(), publishdTime:  jsonData["publishdTime"].toString(), category: jsonData['category'].toString(), url: jsonData['url'].toString()));
     }
-
     return articlesList;
-    
   }
   else {
+    print('get profile failed');
     print(response.reasonPhrase);
+    print(response.statusCode);
     return [];
   }
 
