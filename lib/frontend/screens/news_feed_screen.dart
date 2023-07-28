@@ -211,7 +211,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-          child: Text('\nWelcome! \n ${widget.email}', style: TextStyle(color: Colors.white, fontSize: 20),),
+          child: Text('\nWelcome! \n ${widget.email}', style: TextStyle(color: Colors.white, fontSize: 16),),
           decoration: BoxDecoration(color: Color(0xFF414BB2)),
           ),
           ListTile(
