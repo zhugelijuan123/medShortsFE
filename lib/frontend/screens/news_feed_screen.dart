@@ -83,7 +83,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
 
     final response = await http.get(Uri.parse(url), headers: headers);
 
-    // final response = await http.get(Uri.parse(''), headers: headers);
     if (response.statusCode == 200){
       final data = response.body;
       setState(() {
@@ -108,8 +107,8 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         dynamic jsonObject = js[idx];
         if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
           NewsArticle articleItem = NewsArticle(
-            title: jsonObject['title'], 
-            description: jsonObject['summary_new'], 
+            title: jsonObject['title'].replaceAll('"',''), 
+            description: jsonObject['summary_new'].replaceAll('"',''), 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['publishedTimeGap'], 
@@ -129,7 +128,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   }
 
   List<bool> getPinnedFlag() {
-    List<NewsArticle> newsArticles = [];
     List<bool> tmpNewsPinnedFlagList = [];
     
     if (jsonResponse.containsKey(selectedCategories[0])){
@@ -138,14 +136,13 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         dynamic jsonObject = js[idx];
         if (jsonObject['summary_new'] != null && jsonObject['publishedTimeGap'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['publishedTimeGap'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
           NewsArticle articleItem = NewsArticle(
-            title: jsonObject['title'], 
-            description: jsonObject['summary_new'], 
+            title: jsonObject['title'].replaceAll('"',''), 
+            description: jsonObject['summary_new'].replaceAll('"',''), 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['publishedTimeGap'], 
             category: selectedCategories[0], 
             url: jsonObject['url']);
-          newsArticles.add(articleItem);
           if (pinnedNewsList.any((element) => element.title == articleItem.title)){
             tmpNewsPinnedFlagList.add(true);
           }

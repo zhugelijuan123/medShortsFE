@@ -85,7 +85,6 @@ class _NewsCardState extends State<NewsCard> {
     } else {
       newsList.removeWhere((element) => newArticle.title == element.title);
     }
-    print(newsList);
     updateProfile(widget.accessToken, newsList);
   }
 

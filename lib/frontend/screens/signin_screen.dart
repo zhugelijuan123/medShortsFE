@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:medpulse/backend/services/signup.dart';
+import 'package:medpulse/frontend/screens/verifyMfa_signin.dart';
+import '../../backend/services/sign_in.dart';
 import 'news_feed_screen.dart';
+import 'dart:convert';
 
 
 bool isLoginInfoVerified(String email, String password) {
@@ -15,6 +19,27 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   String userEmail = '';
   String userPassword = '';
+  String? errorHint = null;
+  String verifyLogin = '';
+
+  Future<void> loginAsync(userEmail, userPassword) async {
+    String loginString = await login(userEmail, userPassword);
+    Map<String, dynamic> jsonData = jsonDecode(loginString);
+    String loginOtpToken = jsonData['tokenDto']['token'];
+
+    String validateString = await sendMfa(userEmail, loginOtpToken);
+    
+    if (validateString == '' || loginString == '') {
+      errorHint = null;
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => VerifyMfaSignIn(),
+            settings: RouteSettings(arguments:{'validate': validateString, 'loginString':loginString, 'email':userEmail})),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +57,10 @@ class _SigninScreenState extends State<SigninScreen> {
               decoration: InputDecoration(
                 labelText: 'Email',
               ),
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
-                  userEmail = value; // Update the userInput variable with the user's input
+                  userEmail =
+                      value; // Update the userInput variable with the user's input
                 });
               },
             ),
@@ -44,9 +70,10 @@ class _SigninScreenState extends State<SigninScreen> {
                 labelText: 'Password',
               ),
               obscureText: true,
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
-                  userPassword = value; // Update the userInput variable with the user's input
+                  userPassword =
+                      value; // Update the userInput variable with the user's input
                 });
               },
             ),
@@ -54,19 +81,20 @@ class _SigninScreenState extends State<SigninScreen> {
             ElevatedButton(
               onPressed: () {
                 // Implement signin logic here
-                if (isLoginInfoVerified(userEmail, userPassword)){
-                  Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  NewsFeedScreen(email:'Not logged in', selectedLanguage: 'en-US',)),
-                      );
-                  }
-                else {
+                if (isLoginInfoVerified(userEmail, userPassword)) {
+                  
+                  loginAsync(userEmail, userPassword);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => VerifyMfaSignIn()),
+                  // );
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Wrong email or password'),
                     ),
                   );
-                }                
+                }
               },
               child: const Text('Log In'),
             ),
