@@ -46,6 +46,7 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   audioplayers: ^4.1.0
   just_audio: ^0.9.34
+  flutter_html: ^3.0.0-beta.2
 
 dev_dependencies:
   flutter_native_splash:

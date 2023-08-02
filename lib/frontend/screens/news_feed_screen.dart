@@ -63,7 +63,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   //   return selectedSummary;
   //  }
   //   return selectedSummary + '...';
-  print(summary_text.length);
+  // print(summary_text.length);
   return summary_text;
   }
 
@@ -180,7 +180,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         }
       }
     }
-    print(tmpNewsPinnedFlagList);
+    // print(tmpNewsPinnedFlagList);
     return tmpNewsPinnedFlagList;
   }
 
