@@ -11,6 +11,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'backend/services/signup.dart';
 import 'backend/services/profile_service.dart';
 import 'frontend/screens/podcast.dart';
+import 'package:flutter/material.dart';
 
 
 class MyHttpOverrides extends HttpOverrides{
@@ -46,8 +47,14 @@ class _MyAppState extends State<MyApp> {
   void initState(){
     super.initState();
     checkLoginStatus();
-  }
 
+    Future.delayed(Duration(seconds: 3), (){
+      setState(() {
+        isLoggedIn=true;
+      });
+    });
+  }
+  
   Future<void> checkLoginStatus() async {
     final storage = const FlutterSecureStorage();
     var accessToken = await storage.read(key:'token');
@@ -80,9 +87,40 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         ),
-        home: 
-        isLoggedIn?NewsFeedScreen(email:email, selectedLanguage: 'en-US',):SwipeCombination(),
+        home:
+          SplashScreen(isLoggedIn: isLoggedIn, email: email),
       ),
+    );
+  }
+}
+class SplashScreen extends StatelessWidget {
+  final bool isLoggedIn;
+  final String email;
+
+  const SplashScreen({required this.isLoggedIn, required this.email});
+
+  @override
+  Widget build(BuildContext context) {
+    // Simulate a 3-second delay for the splash screen.
+    Future.delayed(Duration(seconds: 3), () {
+      // Navigate to the appropriate screen based on the isLoggedIn status.
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => isLoggedIn
+              ? NewsFeedScreen(
+                  email: email,
+                  selectedLanguage: 'en-US',
+                )
+              : SwipeCombination(),
+        ),
+        (route) => false, // This will remove all the previous routes from the stack.
+      );
+    });
+
+    return Container(
+      color: Color.fromRGBO(48,48,101,1), // You can set the background color of the splash screen here.
+      child: Image.asset('assetsShriya/app-pill.gif'), // Replace 'your_splash_gif.gif' with the actual path or URL of your GIF.
     );
   }
 }
