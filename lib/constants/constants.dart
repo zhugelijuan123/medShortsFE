@@ -59,7 +59,7 @@ final List<String> imagePaths = [
 
 
 
-  void launchURL(String url) async {
+  Future<void> launchURL(String url) async {
   try {
     if (await canLaunch(url)) {
       await launch(url);

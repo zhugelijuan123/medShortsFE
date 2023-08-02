@@ -75,7 +75,7 @@ class _ValidateRegistrationScreenState extends State<ValidateRegistrationScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                  child: Text('Let\'s get started with your immersiven journey', 
+                  child: Text('Let\'s get started with your immersive journey', 
                   style:TextStyle(fontSize: 16,fontFamily: 'Arial',color: Colors.grey,) ,),
                 ),
               ],

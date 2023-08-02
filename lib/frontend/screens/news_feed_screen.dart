@@ -39,6 +39,34 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   List<NewsArticle> pinnedNewsList = [];
   List<bool> newsPinnedFlagList = [];
 
+  String summaryFix(String summary_text){
+    // print(summary_text);
+  //   List<String> word_list = summary_text.split(' ');
+  //   String selectedSummary = '';
+  //   int totalChars = 0;
+  //   int maxChars = 210;
+
+  //   for (int idx = 0; idx < word_list.length; idx++){
+  //     String word = word_list[idx];
+  //     if (totalChars + word.length <= maxChars){
+  //         selectedSummary += word;
+  //         if (idx != word_list.length - 1){
+  //           selectedSummary += ' ';
+  //         }
+  //         totalChars += word.length + 1;
+  //     }
+  //     else{
+  //       break;
+  //     }
+  //   }
+  //  if (selectedSummary == summary_text){
+  //   return selectedSummary;
+  //  }
+  //   return selectedSummary + '...';
+  // print(summary_text.length);
+  return summary_text;
+  }
+
   Future<void> fetchPinnedNews() async{
     if(widget.email != 'Not logged in'){
       pinnedNewsList = await getProfile(token);
@@ -71,13 +99,23 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       pinnedNewsList = await getProfile(token);
     }
 
+    print('fetch news now');
+    print(headers);
     final response = await http.get(Uri.parse(url), headers: headers);
+    print(response.statusCode);
 
     if (response.statusCode == 200){
       final data = response.body;
+      // print('responsebody');
+      // print(data);
+      Map<String, dynamic> jsonData = json.decode(data);
+      // print('jsondata');
+      // print(jsonData);
       setState(() {
-        jsonResponse = json.decode(data);
+        jsonResponse = jsonData;
       });
+      // print('jsonresponse');
+      // print(jsonResponse);
       return jsonResponse;
     } else{
       print('Error: ${response.statusCode}');
@@ -98,7 +136,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         if (jsonObject['summary_new'] != null && jsonObject['pubDate'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['pubDate'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
           NewsArticle articleItem = NewsArticle(
             title: jsonObject['title'].replaceAll('"',''), 
-            description: jsonObject['summary_new'].replaceAll('"',''), 
+            description: summaryFix(jsonObject['summary_new'].replaceAll('"','')), 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['pubDate'], 
@@ -127,7 +165,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         if (jsonObject['summary_new'] != null && jsonObject['pubDate'] != null && jsonObject['imageUrl'] != null && jsonObject['url'] != null && jsonObject['summary_new'] != '' && jsonObject['pubDate'] != '' && jsonObject['imageUrl'] != '' && jsonObject['url'] != '' ){
           NewsArticle articleItem = NewsArticle(
             title: jsonObject['title'].replaceAll('"',''), 
-            description: jsonObject['summary_new'].replaceAll('"',''), 
+            description: summaryFix(jsonObject['summary_new'].replaceAll('"','')), 
             image: jsonObject['imageUrl'], 
             author: 'lijuan', 
             publishdTime: jsonObject['pubDate'], 
@@ -142,7 +180,8 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         }
       }
     }
-      return tmpNewsPinnedFlagList;
+    // print(tmpNewsPinnedFlagList);
+    return tmpNewsPinnedFlagList;
   }
 
 
@@ -167,13 +206,13 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             ),
             decoration: BoxDecoration(color: Color(0xFF414BB2)),
           ),
-          ListTile(
-            title: Text('Audio Language'),
+          // ListTile(
+          //   title: Text('Audio Language'),
             
-            onTap: () {
-              navigateToAudioScreen();
-            },
-          ),
+          //   onTap: () {
+          //     navigateToAudioScreen();
+          //   },
+          // ),
         ],
       )
     );
@@ -223,13 +262,13 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             },
             
           ),
-          ListTile(
-            title: Text('Audio Language'),
+          // ListTile(
+          //   title: Text('Audio Language'),
             
-            onTap: () {
-              navigateToAudioScreen();
-            },
-          ),
+          //   onTap: () {
+          //     navigateToAudioScreen();
+          //   },
+          // ),
           ListTile(
             title: Text('Log out'),
             onTap: () async {
@@ -246,6 +285,14 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         ],
       )
     );
+  }
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    if( jsonResponse == {}){
+      fetchData();
+    }
   }
 
   
@@ -339,7 +386,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                                           fontWeight: FontWeight.bold,
                                           fontStyle: FontStyle.italic,
                                           fontFamily: 'Arial',
-                                          color: Color(0xFF2CB197),
+                                          color: Color(0xFF414BB2),
                                         ),
                                       ),
                                     ],
@@ -481,6 +528,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   //   final screenSize = MediaQuery.of(context).size;
   //   return Scaffold(
   //     appBar: null,
+  //     drawer: widget.email == 'Not logged in'?buildDrawer():buildLoggedinDrawer(),
   //     body: FutureBuilder<dynamic> (
   //       future:jsonResponse,
   //       builder:(BuildContext context, AsyncSnapshot<dynamic> snapshot){
@@ -569,7 +617,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                         
   //                               padding: EdgeInsets.all(1.5),
   //                               child: GestureDetector(
-  //                                 onTap: () {
+  //                                 onTap: () async {
   //                                   setState(() {
   //                                     //Multiple choices
   //                                     // if (selectedCategories.contains(category)) {
@@ -580,6 +628,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   //                                     //Only one choices
   //                                     selectedCategories = [category];
   //                                   });
+  //                                   await fetchPinnedNews();
   //                                 },
   //                                 child: Column(
   //                                   children: [
@@ -649,7 +698,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   //                       itemBuilder: (BuildContext context, int index) {
   //                         return Padding(
   //                           padding: const EdgeInsets.all(2.0),
-  //                           child: NewsCard(article: getSelectedNewsArticles()[index]),
+  //                           child: NewsCard(article: getSelectedNewsArticles()[index], selectedLanguage: widget.selectedLanguage, accessToken:token, email: widget.email,pinIconFlag:true, isPinnedFlag: getPinnedFlag()[index],),
   //                         );
   //                     },
   //                   ),
