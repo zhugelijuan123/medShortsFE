@@ -24,7 +24,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 style: TextStyle(
                   fontSize: 42,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Arial',
+                  fontFamily: 'Ubuntu',
                   color: Colors.black,
                 ),
               ),
@@ -34,8 +34,8 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   fontSize: 42,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
-                  fontFamily: 'Arial',
-                  color: Color(0xFF2CB197),
+                  fontFamily: 'Ubuntu',
+                  color: Color(0xFF414BB2),
                 ),
               ),
             ],
@@ -44,15 +44,15 @@ class _SwipeCombinationState extends State<SwipeCombination> {
       ),
       const Row(
         children: [
-          SizedBox(width: 80), // Add space using SizedBox
+          SizedBox(width: 70), // Add space using SizedBox
           Flexible(
             child: Text(
               'Rapid insights into the medical world',
               style: TextStyle(
-                fontSize: 20, // Adjust the font size
+                fontSize: 15, // Adjust the font size
                 color: Colors.black, // Set the text color
                 letterSpacing: 1, // Set the letter spacing
-                fontFamily: 'Caveat',
+                fontFamily: 'Arial',
                 fontWeight: FontWeight.bold,
                 // Add more style properties as needed
               ),
@@ -60,83 +60,110 @@ class _SwipeCombinationState extends State<SwipeCombination> {
           ),
         ],
       ),
+      SizedBox(height: 110),
       const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(width: 10),
-          Flexible(
+          Center(
             child: Text(
-              '\n\n\n  You might be here for new trends in Healthcare...\n\n  But that\'s just a start!\n',
+              'You might be here for new trends',
               style: TextStyle(
-                fontSize: 27, // Adjust the font size
+                fontSize: 20, // Adjust the font size
                 color: Colors.black, // Set the text color
-                letterSpacing: 1, // Set the letter spacing
-                fontFamily: 'Times New Roman',
-                fontWeight: FontWeight.bold,
+                fontFamily: 'ArchivoBlack',
+                // fontWeight: FontWeight.bold,
                 // Add more style properties as needed
               ),
             ),
-          )
+          ),
+          
         ],
       ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 4,
-                  blurRadius: 4,
+       Center(
+         child: Text(
+                'in Healthcare...',
+                style: TextStyle(
+                  fontSize: 20, // Adjust the font size
+                  color: Colors.black, // Set the text color
+                  fontFamily: 'ArchivoBlack',
+                  // fontWeight: FontWeight.bold,
+                  // Add more style properties as needed
+                ),
+              ),
+       ),
+      Center(
+        child: Text(
+                '\nBut that\'s just the start!\n',
+                style: TextStyle(
+                  fontSize: 18, // Adjust the font size
+                  color: Colors.black, // Set the text color
+                  letterSpacing: 1, // Set the letter spacing
+                  fontFamily: 'Arial',
+                  // Add more style properties as needed
+                ),
+              ),
+      ),
+      Padding(
+            padding: const EdgeInsets.only(top: 110),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF414BB2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF414BB2),
+                        spreadRadius: 2,
+                        blurRadius: 2,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 0,
-                  blurRadius: 0,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 0,
-                  blurRadius: 0,
-                ),
-              ],
-            ),
-          ),
-        ],
-      )
     ],
     [
       Column(
         children: [
-          const Padding(padding: EdgeInsets.only(top: 50)),
+          const Padding(padding: EdgeInsets.only(top: 20)),
           const Text(
             'Get updates on the latest health news',
             style: TextStyle(
@@ -186,7 +213,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 50),
+            padding: const EdgeInsets.only(top: 95),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -196,7 +223,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black,
+                    color: Colors.grey,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -212,12 +239,12 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black,
+                    color: Color(0xFF414BB2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey,
-                        spreadRadius: 4,
-                        blurRadius: 4,
+                        color: Color(0xFF414BB2),
+                        spreadRadius: 2,
+                        blurRadius: 2,
                       ),
                     ],
                   ),
@@ -228,7 +255,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black,
+                    color: Colors.grey,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -243,6 +270,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
           ),
         ],
       ),
+      
     ],
     [
       Column(
@@ -276,8 +304,10 @@ class _SwipeCombinationState extends State<SwipeCombination> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
+        ],
+      ),
+      Padding(
+            padding: const EdgeInsets.only(top: 35),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -287,7 +317,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black,
+                    color: Colors.grey,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -303,7 +333,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black,
+                    color: Colors.grey,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -319,12 +349,12 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black,
+                    color: Color(0xFF414BB2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey,
-                        spreadRadius: 4,
-                        blurRadius: 4,
+                        color: Color(0xFF414BB2),
+                        spreadRadius: 2,
+                        blurRadius: 2,
                       ),
                     ],
                   ),
@@ -332,10 +362,11 @@ class _SwipeCombinationState extends State<SwipeCombination> {
               ],
             ),
           ),
-        ],
-      ),
     ],
   ];
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -347,7 +378,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
       body: Column(
         children: [
           Container(
-            height: 580, // Define the desired height
+            height: 560, // Define the desired height
             child: PageView.builder(
               controller: _pageController,
               itemCount: combinations.length,
@@ -358,6 +389,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
               },
             ),
           ),
+          
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -410,13 +442,13 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 style: TextStyle(
                   color: Color(0xFF414BB2), 
                   fontWeight: FontWeight.bold,  
-                  fontSize: 18,  
+                  fontSize: 15,  
                   // Set the text color to blue
                 ),
               ),
             )
           ],),
-          const SizedBox(height: 10,),
+          const SizedBox(height: 12,),
           Row(children: [
             SizedBox(width:28),
             InkWell(
@@ -432,13 +464,13 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 style: TextStyle(
                   color: Color(0xFF414BB2), 
                   fontWeight: FontWeight.bold,  
-                  fontSize: 18,  
+                  fontSize: 15,  
                   // Set the text color to blue
                 ),
               ),
             )
           ],),
-          const SizedBox(height: 18,),
+          const SizedBox(height: 12,),
           Row(children: [
             SizedBox(width:28),
             InkWell(
@@ -456,7 +488,7 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 style: TextStyle(
                   color: Color(0xFF414BB2), 
                   fontWeight: FontWeight.bold,  
-                  fontSize: 18,  
+                  fontSize: 15,  
                   // Set the text color to blue
                 ),
               ),

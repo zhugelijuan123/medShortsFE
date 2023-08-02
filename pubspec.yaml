@@ -104,6 +104,9 @@ flutter:
     - family: Ubuntu
       fonts:
         - asset: fonts/Ubuntu-Regular.ttf
+    - family: ArchivoBlack
+      fonts:
+        - asset: fonts/ArchivoBlack-Regular.ttf
 
   assets:
     - assets/images/tech.png

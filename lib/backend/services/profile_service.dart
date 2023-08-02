@@ -171,7 +171,7 @@ Future<List<NewsArticle>> getProfile(acceeToken) async {
     Map<String, dynamic> jsonData = jsonDecode(responseData);
     dynamic newsList = jsonData['data']['getProfileV2']['additionalDetails']['news'];
     List<NewsArticle> articlesList = [];
-    for (int idx = 0;idx<newsList.length;idx++){
+    for (int idx = newsList.length - 1;idx >= 0;idx--){
       jsonData = newsList[idx];
       articlesList.add(NewsArticle(title:  jsonData["title"].toString(), description:  jsonData["description"].toString(), image:  jsonData["image"].toString(), author: jsonData["author"].toString(), publishdTime:  jsonData["publishdTime"].toString(), category: jsonData['category'].toString(), url: jsonData['url'].toString()));
     }

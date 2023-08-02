@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -92,6 +93,26 @@ class _NewsCardState extends State<NewsCard> {
     updateProfile(widget.accessToken, newsList);
   }
 
+  double calculateFontSize(double maxWidth, double maxHeight, text){
+    double max_height = 2.0;
+    var textStyle = TextStyle(height: max_height);
+
+    final textPainter = TextPainter(
+      text: TextSpan(text: text, style: textStyle),
+      textDirection: TextDirection.ltr,
+      maxLines: 6,
+    );
+
+    while (textPainter.size.height > maxHeight && max_height > 1.1){
+      max_height -= 0.1;
+      textStyle = textStyle.copyWith(height: max_height);
+      textPainter.text = TextSpan(text:text, style:textStyle);
+      textPainter.layout(maxWidth: maxWidth);
+    }
+
+    return max_height;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,40 +126,74 @@ class _NewsCardState extends State<NewsCard> {
         SizedBox(height:6),
         Container(
           color:widget.isPinnedFlag?transColorMap['${widget.article.category}']:Colors.white,
-          // height:190,
+          height:138,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.network(
                   widget.article.image,
-                  width:130,
-                  height:146,
+                  width:125,
+                  height:143,
                   fit: BoxFit.cover,
                 ),
-              SizedBox(width: 10,),
+              SizedBox(width: 6,),
               Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 1),
                       Container(
-                        height: 140,
+                        height: 110,
                           child: RawScrollbar(
                             thumbVisibility: true,
                             controller: _scrollController,
                             child: SingleChildScrollView(
                               controller: _scrollController,
                               scrollDirection: Axis.vertical,
-                              child: Container(
-                                child: Text(
+                              child:  Text(
                                   widget.article.description,
-                                  style:TextStyle(fontFamily: 'NotoSans',fontSize: 15),
-                                ),
+                                  style:TextStyle(fontFamily: 'NotoSans',fontSize: 15,height: 1.3),
+                               
                               ),
                             ),
                           ),
                       ),
-                      SizedBox(height:10),
+                      // Container(
+                      //   height: 120,
+                      //     child: Expanded(
+                      //           child: Text(
+                      //             widget.article.description,
+                      //             // textType: TextType.bodyText1,
+                      //             // maxLines:6,
+                      //             // minFontSize: 16,
+                      //             // maxFontSize: 30,
+                      //             style:TextStyle(fontFamily: 'NotoSans',fontSize: 16),
+                      //           ),
+                      //         ),
+                      // ),
+                      // Container(
+                      //   height:163,
+                      //           child:
+                      //            Text.rich(
+                      //             TextSpan(
+                      //               text:widget.article.description,
+                      //               style:TextStyle(fontFamily: 'NotoSans',fontSize: 15, letterSpacing: 0.8, height:1.3),
+                      //               children:[
+                      //                 // TextSpan(text:'[',style:TextStyle(fontSize: 13),),
+                      //                 TextSpan(
+                      //                   text: 'Read more',
+                      //                   style:TextStyle(fontFamily: 'NotoSans',fontSize: 13, color:Color(0xFF5445FD)),
+                      //                   recognizer: TapGestureRecognizer()..onTap = () async {await launchURL('${widget.article.url}');} ,
+                      //                 ),
+                      //                 // TextSpan(text:']',style:TextStyle(fontSize: 13),),
+                      //               ]
+                      //              ),
+                      //             // maxLines:6,
+                      //             // overflow:TextOverflow.ellipsis,
+                      //             ),
+                                
+                      // ),
+                      SizedBox(height:1),
                       Row(
                     children: [
                       Expanded(
@@ -159,9 +214,10 @@ class _NewsCardState extends State<NewsCard> {
                         onTap: () async {
                           await onIconTap(widget.article);
                           },
-                        child: Icon(Icons.push_pin_outlined,color: widget.isPinnedFlag?darkerColorMap['${widget.article.category}']:Color.fromARGB(255, 98, 90, 90),)):SizedBox(width:2),
+                        child: Icon(Icons.push_pin_outlined,color: widget.isPinnedFlag?darkerColorMap['${widget.article.category}']:Color.fromARGB(255, 98, 90, 90),)):SizedBox(width:6),
+                      SizedBox(width:42),
                       Padding(
-                        padding: EdgeInsets.only(right: 10.0), 
+                        padding: EdgeInsets.only(right: 12.0), 
                         child:
                           Align(
                             alignment: Alignment.topRight,
