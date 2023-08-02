@@ -48,9 +48,9 @@ dependencies:
   just_audio: ^0.9.34
 
 dev_dependencies:
-  flutter_native_splash:
   flutter_test:
     sdk: flutter
+  flutter_native_splash:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -119,6 +119,7 @@ flutter:
     - assets/images/interestCategories.png
     - assets/images/pillScreenshot.png
     - assets/images/syringeScreenshot.png
+    - assetsShriya/app-pill.gif
     
 
   # The following line ensures that the Material Icons font is
