@@ -4,7 +4,6 @@ import 'package:medpulse/frontend/widgets/news_card.dart';
 
 
 Future<dynamic> userInfo(accessToken) async {
-  // accessToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6InBsYXRmb3JtLWF1dGgifQ.eyJhY2Nlc3NfdG9rZW4iOiJPRGhtT1RjMFlqa3RZV0UwT0MwMFl6aGpMV0psTXpVdE5qVXhNMk13TVdWak1qQTBMVEYyYldsTlYwSkVkMmxsT1dWb1EwZzNURXd5YlRFd09XaFJhejA9IiwidXNlcl9jbGllbnRfaW5mbyI6eyJ4LWFwcC1pZCI6ImNhcmVtYXJrZXQtY29uc3VtZXIiLCJ4LXRlbmFudC1pZCI6ImFudGhlbSJ9LCJhdWRpZW5jZSI6Inhwb3RlY2gtc2VydmljZXMiLCJpc3MiOiJwbGF0Zm9ybS1hdXRoIiwiZXhwaXJlc0luIjoxNjg5MjY4NTgwODAzfQ.Q9LAjMO_fC1IOpt5tHNau0gKNrnsBwIU0yA51EhRrCZEpRlpdHpFlinfbXlGAu2dlmSIth32PjrSVRrff5hnogSf8FsLzlL38uflkDtl32I6CC6KzWPuWpzphUhbOb19I0s1eccJXDYz7KEgtFBiyLKUv8duGVyi28wCwZrTVZ85r5YWpSvLqXDD1l9Xhk0nSCoirsQ1KPxaXuSAVjLDUQ5XY4n0c5gGR_BQKpAWkfGPjUoSUb6-KRhxLdON-lkapFNOIv7LZXenbzGUV9CtmbKVmjESZ0jIIBSFHp98wqQgty5hNwCAlpdtrtDKhYMqJYrTeI0juU8gWX4VT1yUcQ';
   var headers = {
     'true-client-ip': '10.0.0.0',
     'Accept': 'application/json',
@@ -25,8 +24,6 @@ Future<dynamic> userInfo(accessToken) async {
     return emailAddress;
   }
   else {
-    print('get user info using token failed');
-    print(response.reasonPhrase);
     return '';
   }
 }
@@ -124,8 +121,6 @@ Future<dynamic> updateProfile(accessToken, objectList) async {
     await response.stream.bytesToString();
   }
   else {
-    print('update profile failed');
-    print(response.reasonPhrase);
     print(response.statusCode);
   }
 
@@ -178,9 +173,6 @@ Future<List<NewsArticle>> getProfile(acceeToken) async {
     return articlesList;
   }
   else {
-    print('get profile failed');
-    print(response.reasonPhrase);
-    print(response.statusCode);
     return [];
   }
 

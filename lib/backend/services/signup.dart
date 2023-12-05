@@ -24,8 +24,6 @@ Future<String> validateregistration(userEmail) async {
     return validateResponse;
   }
   else {
-    print('validate registration failed');
-    print(response.reasonPhrase);
     return '';
   }
 }
@@ -33,15 +31,12 @@ Future<String> validateregistration(userEmail) async {
 Future<String> verifyMfa(otpCode, jsonString) async {
   var request = http.Request('POST', Uri.parse('https://web.stg.platform.caremarket.ai/api/xpocareIdentityServices/xpocare/v1/consumer/verifyMfa'));
   Map<String, dynamic> jsonData = jsonDecode(jsonString);
-  print(otpCode);
-  print(jsonString);
   List<String> keys = ['token','pingRiskId','pingUserId','pingDeviceId'];
 
   Map<String, dynamic> requestJson = Map.fromEntries(
       keys.where((key) => jsonData.containsKey(key)).map((key) => MapEntry(key, jsonData[key])));
 
   requestJson["otp"] = otpCode;
-  print(requestJson);
   request.body = json.encode(requestJson);
   request.headers.addAll(headers);
 
@@ -55,8 +50,6 @@ Future<String> verifyMfa(otpCode, jsonString) async {
     return otpValidatedToken;
   }
   else {
-    print('verify mfa failed');
-    print(response.reasonPhrase);
     return '';
   }
 }
@@ -78,12 +71,9 @@ Future<dynamic> register(otp_token, password) async {
     String registerResponse = await response.stream.bytesToString();
     Map<String, dynamic> jsonData = jsonDecode(registerResponse);
     String registerToken = jsonData['tokenDto']['token'];
-    
     return registerToken;
   }
   else {
-    print('register failed');
-    print(response.reasonPhrase);
     return '';
   }
 
@@ -97,8 +87,6 @@ Future<dynamic> middleWare(auth_session) async {
   request.body = json.encode({
     "auth_session": auth_session
   });
-  // print('auth session:');
-  // print(auth_session);
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -110,8 +98,6 @@ Future<dynamic> middleWare(auth_session) async {
     return accessToken;
   }
   else {
-    print('middle ware pkce failed');
-    print(response.reasonPhrase);
     return '';
   }
 }

@@ -43,9 +43,6 @@ class _VerifyMfaScreenState extends State<VerifyMfaScreen> {
 
       if (index < 5) {
         focusNodes[index + 1].requestFocus();
-      } else {
-        // Automatically verify OTP when the last field is filled
-        // verifyMfaAsync(validateString);
       }
     }
   }

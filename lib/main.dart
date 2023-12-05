@@ -58,9 +58,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> checkLoginStatus() async {
     final storage = const FlutterSecureStorage();
     var accessToken = await storage.read(key:'token');
-    print('accessToken');
-    print(accessToken);
-    
+
     if (accessToken != null && accessToken.isNotEmpty){
       String userInfoResponse = await userInfo(accessToken);
       if (userInfoResponse == ''){

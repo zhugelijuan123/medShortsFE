@@ -28,8 +28,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   @override
   void initState(){
     super.initState();
-    // checkLoginStatus();
-    
     fetchData();
   }
 
@@ -40,30 +38,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   List<bool> newsPinnedFlagList = [];
 
   String summaryFix(String summary_text){
-    // print(summary_text);
-  //   List<String> word_list = summary_text.split(' ');
-  //   String selectedSummary = '';
-  //   int totalChars = 0;
-  //   int maxChars = 210;
-
-  //   for (int idx = 0; idx < word_list.length; idx++){
-  //     String word = word_list[idx];
-  //     if (totalChars + word.length <= maxChars){
-  //         selectedSummary += word;
-  //         if (idx != word_list.length - 1){
-  //           selectedSummary += ' ';
-  //         }
-  //         totalChars += word.length + 1;
-  //     }
-  //     else{
-  //       break;
-  //     }
-  //   }
-  //  if (selectedSummary == summary_text){
-  //   return selectedSummary;
-  //  }
-  //   return selectedSummary + '...';
-  // print(summary_text.length);
   return summary_text;
   }
 
@@ -77,9 +51,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
     final storage = const FlutterSecureStorage();
     token = await storage.read(key:'token');
 
-    if (token == null && widget.email != 'Not logged in'){
-      print('news feed page: token is null but user logged in');
-    }
 
     if (token == null){
       token = '';
@@ -99,26 +70,16 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       pinnedNewsList = await getProfile(token);
     }
 
-    print('fetch news now');
-    print(headers);
     final response = await http.get(Uri.parse(url), headers: headers);
-    print(response.statusCode);
 
     if (response.statusCode == 200){
       final data = response.body;
-      // print('responsebody');
-      // print(data);
       Map<String, dynamic> jsonData = json.decode(data);
-      // print('jsondata');
-      // print(jsonData);
       setState(() {
         jsonResponse = jsonData;
       });
-      // print('jsonresponse');
-      // print(jsonResponse);
       return jsonResponse;
     } else{
-      print('Error: ${response.statusCode}');
       setState(() {
         jsonResponse = 'Auth error';
       });
@@ -180,7 +141,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         }
       }
     }
-    // print(tmpNewsPinnedFlagList);
     return tmpNewsPinnedFlagList;
   }
 
@@ -206,13 +166,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             ),
             decoration: BoxDecoration(color: Color(0xFF414BB2)),
           ),
-          // ListTile(
-          //   title: Text('Audio Language'),
-            
-          //   onTap: () {
-          //     navigateToAudioScreen();
-          //   },
-          // ),
         ],
       )
     );
@@ -262,13 +215,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             },
             
           ),
-          // ListTile(
-          //   title: Text('Audio Language'),
-            
-          //   onTap: () {
-          //     navigateToAudioScreen();
-          //   },
-          // ),
+
           ListTile(
             title: Text('Log out'),
             onTap: () async {
@@ -399,8 +346,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       drawer: widget.email == 'Not logged in'?buildDrawer():buildLoggedinDrawer(),
       body: Column(
                 children: [
-                  // SizedBox(height: 50,),
-                  // SizedBox(height: 10,),
                   Divider(
                     color: Color(0xFFE6E6E6),
                     height: 1,

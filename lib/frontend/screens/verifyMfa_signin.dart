@@ -85,8 +85,6 @@ class _VerifyMfaScreenState extends State<VerifyMfaSignIn> {
     loginString = gotArguments?['loginString']??'';
     userEmail = gotArguments?['email']??'';
 
-    // final String verifyLogin =
-    //     ModalRoute.of(context)?.settings.arguments as String;
     List<Widget> otpFields = List.generate(
       6,
       (index) => SizedBox(

@@ -72,7 +72,6 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 fontSize: 20, // Adjust the font size
                 color: Colors.black, // Set the text color
                 fontFamily: 'ArchivoBlack',
-                // fontWeight: FontWeight.bold,
                 // Add more style properties as needed
               ),
             ),
@@ -87,7 +86,6 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                   fontSize: 20, // Adjust the font size
                   color: Colors.black, // Set the text color
                   fontFamily: 'ArchivoBlack',
-                  // fontWeight: FontWeight.bold,
                   // Add more style properties as needed
                 ),
               ),
@@ -627,8 +625,6 @@ class _SwipeCombinationState extends State<SwipeCombination> {
                 ''',
                 ), ),
                 );
-                // launchURL('https://www.freeprivacypolicy.com/live/884592be-6e63-4312-8fc6-35c02dc8068b'); // Replace with your website URL
-
               },
               child: const Text(
                 'Privacy',

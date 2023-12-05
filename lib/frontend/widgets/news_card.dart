@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../../constants/constants.dart';
 import '../../backend/services/profile_service.dart';
@@ -51,8 +50,6 @@ class NewsCard extends StatefulWidget {
 
   NewsCard({required this.article, required this.selectedLanguage, required this.accessToken, required this.email, required this.pinIconFlag, required this.isPinnedFlag});
 
-  
-  
   @override
   State<NewsCard> createState() => _NewsCardState();
 }
@@ -109,7 +106,6 @@ class _NewsCardState extends State<NewsCard> {
       textPainter.text = TextSpan(text:text, style:textStyle);
       textPainter.layout(maxWidth: maxWidth);
     }
-
     return max_height;
   }
 
@@ -158,41 +154,7 @@ class _NewsCardState extends State<NewsCard> {
                             ),
                           ),
                       ),
-                      // Container(
-                      //   height: 120,
-                      //     child: Expanded(
-                      //           child: Text(
-                      //             widget.article.description,
-                      //             // textType: TextType.bodyText1,
-                      //             // maxLines:6,
-                      //             // minFontSize: 16,
-                      //             // maxFontSize: 30,
-                      //             style:TextStyle(fontFamily: 'NotoSans',fontSize: 16),
-                      //           ),
-                      //         ),
-                      // ),
-                      // Container(
-                      //   height:163,
-                      //           child:
-                      //            Text.rich(
-                      //             TextSpan(
-                      //               text:widget.article.description,
-                      //               style:TextStyle(fontFamily: 'NotoSans',fontSize: 15, letterSpacing: 0.8, height:1.3),
-                      //               children:[
-                      //                 // TextSpan(text:'[',style:TextStyle(fontSize: 13),),
-                      //                 TextSpan(
-                      //                   text: 'Read more',
-                      //                   style:TextStyle(fontFamily: 'NotoSans',fontSize: 13, color:Color(0xFF5445FD)),
-                      //                   recognizer: TapGestureRecognizer()..onTap = () async {await launchURL('${widget.article.url}');} ,
-                      //                 ),
-                      //                 // TextSpan(text:']',style:TextStyle(fontSize: 13),),
-                      //               ]
-                      //              ),
-                      //             // maxLines:6,
-                      //             // overflow:TextOverflow.ellipsis,
-                      //             ),
-                                
-                      // ),
+
                       SizedBox(height:1),
                       Row(
                     children: [

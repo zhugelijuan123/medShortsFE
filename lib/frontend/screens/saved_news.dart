@@ -24,7 +24,6 @@ class _SavedNewsPageState extends State<SavedNewsPage> {
   @override
   void initState(){
     super.initState();
-    // checkLoginStatus();
     fetchData();
 
   }
@@ -50,7 +49,6 @@ class _SavedNewsPageState extends State<SavedNewsPage> {
       ),
       body: Column(
                 children: [
-                  // SizedBox(height: 50,),
               Divider(
                 color: Color(0xFFE6E6E6),
                 height: 1,
